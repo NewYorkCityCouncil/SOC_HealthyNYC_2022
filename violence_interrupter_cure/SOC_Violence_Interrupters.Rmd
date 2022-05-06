@@ -1,0 +1,88 @@
+---
+title: "Shootings per person by precinct (2021)"
+author: ""
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    theme: cosmo
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = FALSE, fig.align="left", fig.width=14, fig.height=8)
+```
+
+
+
+```{r, include=FALSE}
+library(dplyr)
+#library(readxl)
+library(janitor)
+library(ggplot2)
+#install.packages("ggthemes")
+library(ggthemes)
+#install.packages("stringr")
+library(stringr)
+#install.packages("zoo")
+library(zoo)
+library(tidyr)
+library(ggseas)
+library(readxl)
+
+precinct_pop <- read.csv("/Users/nycc/Downloads/nyc_2010pop_2020precincts.csv") %>% clean_names()
+
+
+program_dates <- read_excel("/Users/nycc/Downloads/CMS\ List\ 1.6.22\ for\ NYCC\ .xlsx") %>% clean_names()
+
+programs_20 <- program_dates %>% separate(date_text, c("year","month")) %>% filter(year<20) %>% mutate(waves=20-as.numeric(year))
+
+shootings_2021 <- read.csv("/Users/nycc/Downloads/NYPD_Shooting_Incident_Data__Year_To_Date_-2.csv") %>% clean_names()
+
+shootings_map_dat_2021 <- shootings_2021 %>% group_by(precinct) %>% summarize(count=n()) %>% mutate(percent=count/sum(count)) %>% left_join(precinct_pop %>% select(precinct_2020, p0010001), by=c("precinct"="precinct_2020")) %>% mutate(rate=count/p0010001)
+
+library(sf)
+library(sp)
+library(leaflet)
+library(tibble)
+library(htmltools)
+
+# Precinct shape file
+precinct.shp <- st_read("/Users/nycc/Downloads/Police\ Precincts/geo_export_ece0487d-79ca-4c55-898e-8333b6d2b0bc.shp")
+precinct.shp <- st_transform(precinct.shp,'+proj=longlat +datum=WGS84')
+
+shootings_map_dat_2021.shp <- shootings_map_dat_2021 %>% left_join(precinct.shp, by=c("precinct"))
+
+shootings_map_dat_2021.shp <- shootings_map_dat_2021.shp %>% st_as_sf() %>% st_transform('+proj=longlat +datum=WGS84')
+```
+
+
+```{r}
+pal = colorNumeric(
+  palette = "Greens",
+  domain = shootings_map_dat_2021.shp$rate, 
+  na.color = "Grey", 
+  reverse = FALSE
+)
+
+leaflet(shootings_map_dat_2021.shp, options = leafletOptions(minZoom = 10), height = 500, width =  500) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(weight = 1,
+              fillColor = ~pal(rate),
+              color="white",
+              stroke = TRUE,
+              fillOpacity = 1) %>%
+addPolygons(data = shootings_map_dat_2021.shp %>% filter(precinct %in% program_dates$precinct),
+              weight = 1,
+              fillColor = ~pal(rate),
+              color="Black",
+              stroke = TRUE,
+              fillOpacity = 0) %>% 
+  addLegend(position ="topleft", 
+            pal=pal,
+            values = shootings_map_dat_2021.shp$rate,
+            title = "Shootings per person",
+            opacity = 1)
+```
+
+
+
