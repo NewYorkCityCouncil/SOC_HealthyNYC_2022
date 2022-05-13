@@ -15,9 +15,18 @@ library(mapview)
 
 ## OUTLINE TEXT for Reference ##
 # Close the Digital Divide to advance health and opportunity for youth, older adults and NYers with disabilities 
-# For the internet access map, they would like it to show broadband access overall, not specific population and 
-# perhaps numbers or bar chart seeing which groups (seniors, disabled, low-income, nonwhite, etc) 
-# have lower rates compared to the city overall.
+# > Device Donation Program – Connect old equipment from city agencies and private donors to those in need (based on programs in San Francisco and New Orleans) 
+# > Digital Literacy Programming at DFTA 
+# > Digital Literacy and Assistive Technology Investments for NYers with disabilities 
+
+# check ACS 2019 & 2020 5 Year Tables at the Census Tract level;
+# check PUMS 2019 & 2020, it has sample individual level data;
+# check what internet metrics are there;
+# then decide whether to aggregate up to NTA, CDTA, or PUMA
+
+
+# example PUMS code -----------
+# https://github.com/NewYorkCityCouncil/Racial_Disparity_Report/blob/4e87b005f5baf1579450cb435b55006e131c28a3/code/rm_acs_pull.R
 
 # function to unzip shapefile -----------
 
@@ -38,32 +47,21 @@ unzip_sf <- function(zip_url) {
 }
 
 ### Pull and clean data -----------
-### PRESENCE OF A COMPUTER AND TYPE OF INTERNET SUBSCRIPTION IN HOUSEHOLD -----------
+### AGE BY PRESENCE OF A COMPUTER AND TYPES OF INTERNET SUBSCRIPTION IN HOUSEHOLD 2020 -----------
 # Note: "Categorically, the ACS considers all desktops, laptops, tablets, and smartphones as computers, 
 # along with selected computing technologies such as smart home devices and single board computers such as RaspberryPi 
 # and Arduino boards compiled from write-in responses."
 
-# get variables available in B28002 group of ACS5 2020
+# get variables available in B28005 group of ACS5 2020
 # also here: https://api.census.gov/data/2020/acs/acs5/variables.html
-group_B28002 <- listCensusMetadata(
+group_B28005 <- listCensusMetadata(
   name = "acs/acs5",
   vintage = 2020,
   type = "variables",
-  group = "B28002")
+  group = "B28005")
 
-# relevant "PRESENCE OF A COMPUTER AND TYPE OF INTERNET SUBSCRIPTION IN HOUSEHOLD" variables
-# Note: overall population is "broadband such as cable, fiber optic or DSL" while others are "broadband subscription"
-# Note: age category is slightly different from others -- "has a computer with broadband subscription" instead of just "broadband subscription"
-vars <- c("NAME", "GEO_ID", 
-          # broadband for overall population (total, broadband such as cable, fiber optic or DSL)
-          "B28002_001E", "B28002_007E", 
-          # broadband by income (total, less than <50k with broadband)
-          "B28004_001E", "B28004_004E", "B28004_008E", "B28004_012E", "B28004_016E", 
-          # broadband by age (total 65+, 65+ and has a computer with broadband)
-          "B28005_014E", "B28005_017E", 
-          # broadband by race (total non-hispanic white, non-hispanic white with broadband)
-          "B28009H_001E", "B28009H_004E"
-          ) 
+# relevant "AGE BY PRESENCE OF A COMPUTER AND TYPES OF INTERNET SUBSCRIPTION IN HOUSEHOLD" variables
+vars <- c("NAME", "GEO_ID", "B28002_001E", paste0("B28005_01",formatC(4:9, width = 1, flag = "0"), "E")) 
 
 # get available geographies for ACS5 2020
 geos <- listCensusMetadata(name = "acs/acs5", vintage = 2020, type = "geographies")
@@ -71,7 +69,7 @@ geos <- listCensusMetadata(name = "acs/acs5", vintage = 2020, type = "geographie
 ### data by census tract (2020) -----------
 
 # get variables for NYC by census tract
-internet_ct <- getCensus(
+age_internet_ct <- getCensus(
   # must add a census api key
   key = Sys.getenv("KEY"),
   name = "acs/acs5",
@@ -97,14 +95,15 @@ ct_shp <- sf::read_sf(unzip_sf(url)) %>%
   )
 
 # join acs data with shapefile and create variables for proportion without broadband and without internet
-ct_acs <- internet_ct %>%
+ct_acs <- age_internet_ct %>%
   left_join(ct_shp %>% select(!c("county", "BoroCT2020", "BoroCode")), by = "GEO_ID") %>% 
   st_as_sf() %>%
   st_transform("+proj=longlat +datum=WGS84") %>%
   mutate(
-    # 1 - proportion of with broadband such as cable, fiber optic or DSL
-    no_broadband = 1 - (B28002_007E / B28002_001E)
-    # have to add other variables here
+    # 1 - proportion of seniors with both computer and broadband access
+    no_broadband = 1 - (B28005_017E / B28005_014E), 
+    # proportion of seniors with a computer but no internet or without a computer
+    no_internet = (B28005_018E + B28005_019E) / B28005_014E
   )
 
 
@@ -123,23 +122,28 @@ nta_acs <- ct_acs %>%
   group_by(NTA2020, NTAName, BoroName) %>%
   # create variables by summing nested census tracts to NTA
   summarise(
-    population = sum(B28002_001E), 
-    broadband = sum(B28002_007E)
-    # have to add other variables here
+    Population = sum(B28002_001E), 
+    Pop_65plus = sum(B28005_014E), 
+    HasComp = sum(B28005_015E), 
+    HasComp_DialUp = sum(B28005_016E), 
+    HasComp_Broadband = sum(B28005_017E), 
+    HasComp_NoInternet = sum(B28005_018E), 
+    NoComp = sum(B28005_019E)
   ) %>%
   mutate(
-    # 1 - proportion of with broadband such as cable, fiber optic or DSL
-    no_broadband = 1 - (broadband / population)
-    # have to add other variables here
+    # 1 - proportion of seniors with both computer and broadband access
+    No_Broadband = 1 - (HasComp_Broadband / Pop_65plus), 
+    # proportion of seniors with a computer but no internet or without a computer
+    No_Internet = (HasComp_NoInternet + NoComp) / Pop_65plus
   ) %>% 
   left_join(nta, by = "NTA2020") %>%
   st_as_sf() %>%
   st_transform("+proj=longlat +datum=WGS84") 
 
-### data by PUMA (2020) [in case want to use PUMA instead] -----------
+### data by PUMA (2020) -----------
 
 # get variables for NYC by PUMA
-internet_puma <- getCensus(
+age_internet_puma <- getCensus(
   key = Sys.getenv("KEY"),
   name = "acs/acs5",
   vintage = 2020,
@@ -148,5 +152,5 @@ internet_puma <- getCensus(
   regionin = "state:36")
 
 # subset to NYC
-internet_puma <- age_internet_puma[grep("NYC-", age_internet_puma$NAME),]
+age_internet_puma <- age_internet_puma[grep("NYC-", age_internet_puma$NAME),]
 
