@@ -55,6 +55,7 @@ group_B28002 <- listCensusMetadata(
 # Note: overall population is "broadband such as cable, fiber optic or DSL" while others are "broadband subscription"
 # Note: age category is slightly different from others -- "has a computer with broadband subscription" instead of just "broadband subscription"
 vars <- c("NAME", "GEO_ID", 
+          ## these are household data (e.g. "B28002_001E" = 3.192 households in nyc)
           # broadband for overall population (total, broadband such as cable, fiber optic or DSL)
           "B28002_001E", "B28002_007E", 
           # broadband by income (total, less than <50k with broadband)
@@ -142,11 +143,17 @@ nta_acs <- ct_acs %>%
 internet_puma <- getCensus(
   key = Sys.getenv("KEY"),
   name = "acs/acs5",
-  vintage = 2020,
+  vintage = 2019,
   vars = vars, 
   region = "public use microdata area:*", 
   regionin = "state:36")
 
 # subset to NYC
-internet_puma <- age_internet_puma[grep("NYC-", age_internet_puma$NAME),]
+internet_puma <- internet_puma[grep("NYC-", internet_puma$NAME),]
+
+internet_puma %>%
+  group_by(state) %>%
+  summarise(
+    hi_speed_pct = sum(B28002_007E) / sum(B28002_001E) 
+  )
 

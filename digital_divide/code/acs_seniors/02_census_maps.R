@@ -2,7 +2,7 @@
 
 # Load data to start
 # Have to add census api first
-source("digital_divide/code/seniors_only/01_census_pull.R")
+source("digital_divide/code/acs_seniors/01_census_pull.R")
 
 
 ### map by census tract ------------
@@ -26,7 +26,7 @@ map <- leaflet(ct_acs) %>%
             values = ct_acs$no_internet,
             title =  "Proportion of Seniors (65+)</br>Without Internet Access")
 
-mapshot(map, file = "digital_divide/visual/seniors_only/map_ct.png", 
+mapshot(map, file = "digital_divide/visual/acs_seniors/map_ct.png", 
         vwidth = 900, vheight = 870)
 
 
@@ -51,6 +51,6 @@ map <- leaflet(nta_acs) %>%
             values = nta_acs$No_Internet,
             title =  "Proportion of Seniors (65+)</br>Without Internet Access")
 
-mapshot(map, file = "digital_divide/visual/seniors_only/map_nta.png", 
+mapshot(map, file = "digital_divide/visual/acs_seniors/map_nta.png", 
         vwidth = 900, vheight = 870)
 
