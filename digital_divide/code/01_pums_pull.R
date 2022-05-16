@@ -47,13 +47,15 @@ pums_vars_2019 %>%
 ### HISPEED ------------------
 
 # puma shapefile
-ny_puma <- map("NY", tigris::pumas, class = "sf", cb = TRUE, year = 2019) %>% 
-  reduce(rbind)
+url <- "https://www1.nyc.gov/assets/planning/download/zip/data-maps/open-data/nypuma2010_22a.zip"
+nyc_puma <- read_sf(unzip_sf(url)) %>%
+  mutate(
+    PUMA = paste0("0", PUMA)
+  )
 
-nyc_puma <- ny_puma[grep("NYC-", ny_puma$NAME),]
 
 ny_pums_hispeed <- get_pums(
-  variables = c("PUMA", "HISPEED", ),
+  variables = c("PUMA", "HISPEED", "RAC1P", "HISP", "AGEP", "POVPIP"),
   state = "NY",
   survey = "acs5",
   year = 2019, 
@@ -62,12 +64,28 @@ ny_pums_hispeed <- get_pums(
   # for standard errors: replicate weights are used to simulate multiple samples from the single PUMS sample and can be used 
   # to calculate more precise standard errors. PUMS data contains both person- and housing-unit-level replicate weights.
 #  rep_weights = "housing"
-)
+  ) %>%
+  mutate(
+    race_ethnicity = case_when(
+      HISP != "01" ~ "Hispanic",
+      HISP == "01" & RAC1P == "1" ~ "White",
+      HISP == "01" & RAC1P == "2" ~ "Black",
+      TRUE ~ "Other"
+    ), 
+    age65plus = case_when(
+      AGEP >= 65 ~ "Senior",
+      TRUE ~ "Other"
+    ), 
+    poverty = case_when(
+      POVPIP < 200 ~ "low-income",
+      TRUE ~ "Other"
+    )
+  )
 
 # nyc totals
 nyc_puma %>%
   st_drop_geometry() %>%
-  left_join(ny_pums_hispeed, by = c("STATEFP10" = "ST", "PUMACE10" = "PUMA")) %>%
+  left_join(ny_pums_hispeed, by = "PUMA") %>%
   summarize(
     total_pop = sum(WGTP),
     hi_speed = sum(WGTP[HISPEED == "1"]),
@@ -78,35 +96,75 @@ nyc_puma %>%
     na_speed_pct = na_speed / total_pop, 
   )
 
-# nyc pums broadband 
+# nyc pums broadband -> use for map in 02_pums_map.R
 nyc_pums_hispeed <- nyc_puma %>%
-  select(STATEFP10, PUMACE10, NAME10) %>%
+  select(PUMA) %>%
   st_drop_geometry() %>%
-  left_join(ny_pums_hispeed, by = c("STATEFP10" = "ST", "PUMACE10" = "PUMA")) %>%
-  group_by(PUMACE10, NAME10) %>%
+  left_join(ny_pums_hispeed, by = "PUMA") %>%
+  group_by(PUMA) %>%
   summarise(
     total_pop = sum(WGTP),
     hi_speed = sum(WGTP[HISPEED == "1"]),
     hi_speed_pct = hi_speed / total_pop
   ) %>%
-  left_join(nyc_puma %>% select(PUMACE10), by = "PUMACE10") %>%
-  st_as_sf()
+  left_join(nyc_puma %>% select(PUMA), by = "PUMA") %>%
+  st_as_sf() %>%
+  st_transform("+proj=longlat +datum=WGS84") 
+  
 
 ### by race ------ 
 
-nyc_pums_hispeed <- nyc_puma %>%
-  select(STATEFP10, PUMACE10, NAME10) %>%
+# nyc total
+nyc_puma %>%
+  select(PUMA) %>%
   st_drop_geometry() %>%
-  left_join(ny_pums_hispeed, by = c("STATEFP10" = "ST", "PUMACE10" = "PUMA")) %>%
-  group_by(PUMACE10, NAME10) %>%
+  left_join(ny_pums_hispeed, by = "PUMA") %>%
+  group_by(race_ethnicity) %>%
+  summarise(
+    total_pop = sum(WGTP),
+    hi_speed = sum(WGTP[HISPEED == "1"]),
+    hi_speed_pct = hi_speed / total_pop
+  ) 
+
+# puma [prob don't need]
+nyc_race_hispeed <- nyc_puma %>%
+  select(PUMA) %>%
+  st_drop_geometry() %>%
+  left_join(ny_pums_hispeed, by = "PUMA") %>%
+  group_by(PUMA, race_ethnicity) %>%
   summarise(
     total_pop = sum(WGTP),
     hi_speed = sum(WGTP[HISPEED == "1"]),
     hi_speed_pct = hi_speed / total_pop
   ) %>%
-  left_join(nyc_puma %>% select(PUMACE10), by = "PUMACE10") %>%
+  left_join(nyc_puma %>% select(PUMA), by = "PUMA") %>%
   st_as_sf()
 
+### by age ------ 
 
+# nyc total
+nyc_puma %>%
+  select(PUMA) %>%
+  st_drop_geometry() %>%
+  left_join(ny_pums_hispeed, by = "PUMA") %>%
+  group_by(age65plus) %>%
+  summarise(
+    total_pop = sum(WGTP),
+    hi_speed = sum(WGTP[HISPEED == "1"]),
+    hi_speed_pct = hi_speed / total_pop
+  ) 
 
   
+### by poverty ------ 
+
+# nyc total
+nyc_puma %>%
+  select(PUMA) %>%
+  st_drop_geometry() %>%
+  left_join(ny_pums_hispeed, by = "PUMA") %>%
+  group_by(poverty) %>%
+  summarise(
+    total_pop = sum(WGTP),
+    hi_speed = sum(WGTP[HISPEED == "1"]),
+    hi_speed_pct = hi_speed / total_pop
+  ) 
