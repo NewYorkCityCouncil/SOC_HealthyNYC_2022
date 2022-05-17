@@ -20,18 +20,19 @@ pal_puma = colorBin(
 
 map <- leaflet(nyc_pums_hispeed) %>%
   setView(-73.941281,40.704103, zoom=11) %>% 
-  addProviderTiles("CartoDB.Positron") %>%
   addPolygons(weight = 1,
               color = "grey",
               stroke = FALSE,
               fillColor = ~pal_puma((1 - nyc_pums_hispeed$hi_speed_pct) * 100),
               fillOpacity = 0.9) %>% 
-  addLegend(position ="bottomright", 
+  addLegend(position ="topleft", 
             pal = pal_puma, 
             opacity = 0.9,
             values = (1 - nyc_pums_hispeed$hi_speed_pct) * 100,
             title =  "Percent of NYC Households Without</br>High Speed Broadband Access",
-            labFormat = labelFormat(suffix = "%"))
+            labFormat = labelFormat(suffix = "%")) %>%
+  setMapWidgetStyle(list(background= "white"))
+  
 
 map
 

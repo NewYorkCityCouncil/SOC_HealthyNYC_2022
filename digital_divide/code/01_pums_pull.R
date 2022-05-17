@@ -8,6 +8,7 @@ library(jsonlite)
 library(leaflet)
 library(mapview)
 library(classInt)
+library(leaflet.extras)
 
 ### REQUEST ------------
 # map of senior population and internet metric 
