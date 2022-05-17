@@ -19,6 +19,15 @@ lapply(list.of.packages, require, character.only = TRUE)
 
 # returns TRUE if package was loaded successfully
 
+year = 2020
+
+census_api_key(tidy_key, install = TRUE)
+
+
+rm(list=ls())
+
+
+v20 <- load_variables(year, "acs5", cache = TRUE)
 
 
 ### Background ------------
@@ -47,18 +56,12 @@ lapply(list.of.packages, require, character.only = TRUE)
 # https://therealdeal.com/new-research/industry-reports/nyc-homeownership-rate-by-racial-ethnic-group-streeteasy/
 # maybe Housing Vacancy Survey has homeownership by race for each puma area....
 
-census_api_key(tidy_key, install = TRUE)
 
-
-rm(list=ls())
-
-
-v20 <- load_variables(2020, "acs5", cache = TRUE)
 
 
 # Load Census Tracts Dataset ----------------------------------------------
 
-tracts <- read_sf('housing_affordability/data/2020 Census Tracts - Tabular/geo_export_c2cde8a0-e3cc-46bd-97a1-c9d18c356d24.shp') %>% 
+tracts <- read_sf('housing_affordability/data/year Census Tracts - Tabular/geo_export_c2cde8a0-e3cc-46bd-97a1-c9d18c356d24.shp') %>% 
   st_transform('+proj=longlat +datum=WGS84')
 
 
@@ -81,7 +84,7 @@ city_raw <- get_acs(geography = "tract",
                             'Richmond County', 'Bronx County',
                             'New York County'), 
                  variables = c('B25106_024', 'B25003_002'),
-                 year = 2020,
+                 year = year,
                  survey = 'acs5') %>% 
   clean_names()
 
@@ -117,6 +120,173 @@ leaflet(data = city_wide_geo) %>%
             opacity = 1,
             values = city_wide_geo$owned_rate,
             title = paste("Home Ownership Rate, by Tract")) 
+
+
+
+# race/ethnicity and ownership/renting ----------------------------------------------
+
+
+
+# Estimate!!Total:	TENURE (WHITE ALONE HOUSEHOLDER)
+# 136	B25003A_002	Estimate!!Total:!!Owner occupied	TENURE (WHITE ALONE HOUSEHOLDER)
+# 137	B25003A_003	Estimate!!Total:!!Renter occupied	TENURE (WHITE ALONE HOUSEHOLDER)
+# 138	B25003B_001	Estimate!!Total:	TENURE (BLACK OR AFRICAN AMERICAN ALONE HOUSEHOLDER)
+# 139	B25003B_002	Estimate!!Total:!!Owner occupied	TENURE (BLACK OR AFRICAN AMERICAN ALONE HOUSEHOLDER)
+# 140	B25003B_003	Estimate!!Total:!!Renter occupied	TENURE (BLACK OR AFRICAN AMERICAN ALONE HOUSEHOLDER)
+# 141	B25003C_001	Estimate!!Total:	TENURE (AMERICAN INDIAN AND ALASKA NATIVE ALONE HOUSEHOLDER)
+# 142	B25003C_002	Estimate!!Total:!!Owner occupied	TENURE (AMERICAN INDIAN AND ALASKA NATIVE ALONE HOUSEHOLDER)
+# 143	B25003C_003	Estimate!!Total:!!Renter occupied	TENURE (AMERICAN INDIAN AND ALASKA NATIVE ALONE HOUSEHOLDER)
+# 144	B25003D_001	Estimate!!Total:	TENURE (ASIAN ALONE HOUSEHOLDER)
+# 145	B25003D_002	Estimate!!Total:!!Owner occupied	TENURE (ASIAN ALONE HOUSEHOLDER)
+# 146	B25003D_003	Estimate!!Total:!!Renter occupied	TENURE (ASIAN ALONE HOUSEHOLDER)
+# 147	B25003E_001	Estimate!!Total:	TENURE (NATIVE HAWAIIAN AND OTHER PACIFIC ISLANDER ALONE HOUSEHOLDER)
+# 148	B25003E_002	Estimate!!Total:!!Owner occupied	TENURE (NATIVE HAWAIIAN AND OTHER PACIFIC ISLANDER ALONE HOUSEHOLDER)
+# 149	B25003E_003	Estimate!!Total:!!Renter occupied	TENURE (NATIVE HAWAIIAN AND OTHER PACIFIC ISLANDER ALONE HOUSEHOLDER)
+# 150	B25003F_001	Estimate!!Total:	TENURE (SOME OTHER RACE ALONE HOUSEHOLDER)
+# 151	B25003F_002	Estimate!!Total:!!Owner occupied	TENURE (SOME OTHER RACE ALONE HOUSEHOLDER)
+# 152	B25003F_003	Estimate!!Total:!!Renter occupied	TENURE (SOME OTHER RACE ALONE HOUSEHOLDER)
+# 153	B25003G_001	Estimate!!Total:	TENURE (TWO OR MORE RACES HOUSEHOLDER)
+# 154	B25003G_002	Estimate!!Total:!!Owner occupied	TENURE (TWO OR MORE RACES HOUSEHOLDER)
+# 155	B25003G_003	Estimate!!Total:!!Renter occupied	TENURE (TWO OR MORE RACES HOUSEHOLDER)
+# 156	B25003H_001	Estimate!!Total:	TENURE (WHITE ALONE, NOT HISPANIC OR LATINO HOUSEHOLDER)
+# 157	B25003H_002	Estimate!!Total:!!Owner occupied	TENURE (WHITE ALONE, NOT HISPANIC OR LATINO HOUSEHOLDER)
+# 158	B25003H_003	Estimate!!Total:!!Renter occupied	TENURE (WHITE ALONE, NOT HISPANIC OR LATINO HOUSEHOLDER)
+# 159	B25003I_001	Estimate!!Total:	TENURE (HISPANIC OR LATINO HOUSEHOLDER)
+# 160	B25003I_002	Estimate!!Total:!!Owner occupied	TENURE (HISPANIC OR LATINO HOUSEHOLDER)
+# 161	B25003I_003	Estimate!!Total:!!Renter occupied	TENURE (HISPANIC OR LATINO HOUSEHOLDER)
+
+
+
+#' To Do
+#' labor force by race to look at race/eth ownership  as percentage of race/eth labor force
+#' rename categories based on pay equity names
+#' calculate white latin/hisp and non-white latin/hisp
+#' 
+#' 
+#' make map add up to nta (nick might have code)
+#' check moe's
+
+race_eth_vars = c('B25003A_001', 'B25003A_002', 'B25003A_003', 'B25003B_001', 'B25003B_002', 'B25003B_003', 'B25003C_001', 'B25003C_002', 'B25003C_003',
+              'B25003D_001', 'B25003D_002', 'B25003D_003', 'B25003E_001', 'B25003E_002', 'B25003E_003', 'B25003F_001', 'B25003F_002', 'B25003F_003',
+              'B25003G_001', 'B25003G_002', 'B25003G_003', 'B25003H_001', 'B25003H_002', 'B25003H_003', 'B25003I_001', 'B25003I_002', 'B25003I_003')
+
+race_eth_vars_rename <- c('white_total', 'white_owner', 'white_renter', 'black_total', 'black_owner', 'black_renter','indigenous_total', 'indigenous_owner', 'indigenous_renter',
+                      'asian_total', 'asian_owner', 'asian_renter','hawaiian_pi_total', 'hawaiian_pi_owner', 'hawaiian_pi_renter','other_total', 'other_owner', 'other_renter',
+                      'two_or_more_total', 'two_or_more_owner', 'two_or_more_renter','white_non_lat_total', 'white_non_lat_owner', 'white_non_lat_renter','lat_hisp_total', 'lat_hisp_owner', 'lat_hisp_renter')
+
+
+
+by_race_eth <- get_acs(geography = "tract", 
+                   state = 'NY',
+                   county = c('Kings County', 'Queens County', 
+                              'Richmond County', 'Bronx County',
+                              'New York County'), 
+                   variables = race_eth_vars,
+                   year = year,
+                   survey = 'acs5') %>% 
+  clean_names()
+
+by_race_eth_wide <- by_race_eth %>% 
+  select(-moe) %>% 
+  pivot_wider(names_from = 'variable', values_from = 'estimate')
+
+
+for(i in 1:length(race_eth_vars)) names(by_race_eth_wide)[names(by_race_eth_wide) == race_eth_vars[i]] = race_eth_vars_rename[i]
+
+
+# calculate owner rate by race/ethnicity
+
+by_race_ownership_rate_tract <- by_race_eth_wide %>% 
+  mutate(white_owner_rate = round(white_owner/white_total, 2),
+         black_owner_rate = round(black_owner/black_total, 2),
+         indigenous_owner_rate = round(indigenous_owner/indigenous_total, 2),
+         asian_owner_rate = round(asian_owner/asian_total, 2),
+         hawaiian_pi_owner_rate = round(hawaiian_pi_owner/hawaiian_pi_total, 2),
+         other_owner_rate = round(other_owner/other_total, 2),
+         two_or_more_owner_rate = round(two_or_more_owner/two_or_more_total, 2),
+         white_non_lat_owner_rate = round(white_non_lat_owner/white_non_lat_total, 2),
+         lat_hisp_owner_rate = round(lat_hisp_owner/lat_hisp_total, 2))
+
+
+# join to tract data
+
+tract_by_race_ownershp_geo <- left_join(tracts, by_race_ownership_rate_tract)
+
+
+# create one row df of ownership total owners and renters by race/ethnicity
+
+values_sum <- list(values = colSums(Filter(is.numeric, by_race_eth_wide)))
+column_names <- colnames(Filter(is.numeric, by_race_eth_wide))
+
+by_race_ownership_rate_city <- as.data.frame(do.call(rbind, values_sum))
+
+
+
+
+# calculate rate of ownership by race/ethnicity [ owners / (owners + renters) ]
+
+by_race_ownership_rate_city <- as_tibble(by_race_ownership_rate_city) %>% 
+  mutate(white_owner_rate = round(white_owner/white_total, 2),
+         black_owner_rate = round(black_owner/black_total, 2),
+         indigenous_owner_rate = round(indigenous_owner/indigenous_total, 2),
+         asian_owner_rate = round(asian_owner/asian_total, 2),
+         hawaiian_pi_owner_rate = round(hawaiian_pi_owner/hawaiian_pi_total, 2),
+         other_owner_rate = round(other_owner/other_total, 2),
+         two_or_more_owner_rate = round(two_or_more_owner/two_or_more_total, 2),
+         white_non_lat_owner_rate = round(white_non_lat_owner/white_non_lat_total, 2),
+         lat_hisp_owner_rate = round(lat_hisp_owner/lat_hisp_total, 2)) %>% 
+  select(white_owner_rate, black_owner_rate, indigenous_owner_rate, asian_owner_rate,
+         hawaiian_pi_owner_rate, other_owner_rate, two_or_more_owner_rate,
+         white_non_lat_owner_rate, lat_hisp_owner_rate) 
+
+# pivot data from horizontal to vertical for plotting
+
+brorc_pivot <- by_race_ownership_rate_city %>% 
+  rename('White' = white_owner_rate,
+         'Black' = black_owner_rate,
+         'Indigenous' = indigenous_owner_rate,
+         'Asian' = asian_owner_rate,
+         'Hawaiian/Pacific Islander' = hawaiian_pi_owner_rate,
+         'Other Race' = other_owner_rate,
+         'Two or More Races' = two_or_more_owner_rate,
+         'White Non-Latin/Hispanic' = white_non_lat_owner_rate,
+         'Latin/Hispanic' = lat_hisp_owner_rate) %>% 
+  pivot_longer(cols = 1:length(colnames(by_race_ownership_rate_city)))
+
+
+# plot ownership rate in bar graph
+
+ggplot(data = brorc_pivot, aes(x = name, y = value, fill = name)) +
+  geom_bar(stat = 'identity') +
+  labs(x = 'Race/Ethnicity', y = 'Ownership Rate', 
+       title = 'Rate of Home Ownership by Race/Ethnicity, NYC') +
+  theme_minimal() +
+  guides(x = guide_axis(n.dodge = 2))
+
+
+
+# Home Ownership as Percentage of Work Force by Race  ---------------------
+
+
+work_force <- read_csv('housing_affordability/data/labor_force.csv')
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # building-size ownership/renting -----------------------------------------
@@ -161,7 +331,7 @@ by_size <- get_acs(geography = "tract",
                               'Richmond County', 'Bronx County',
                               'New York County'), 
                    variables = size_vars,
-                   year = 2020,
+                   year = year,
                    survey = 'acs5') %>% 
   clean_names()
 
@@ -175,148 +345,6 @@ for(i in 1:length(size_vars)) names(by_size_wide)[names(by_size_wide) == size_va
 
 
 
-
-
-
-# race and ownership/renting ----------------------------------------------
-
-
-
-# Estimate!!Total:	TENURE (WHITE ALONE HOUSEHOLDER)
-# 136	B25003A_002	Estimate!!Total:!!Owner occupied	TENURE (WHITE ALONE HOUSEHOLDER)
-# 137	B25003A_003	Estimate!!Total:!!Renter occupied	TENURE (WHITE ALONE HOUSEHOLDER)
-# 138	B25003B_001	Estimate!!Total:	TENURE (BLACK OR AFRICAN AMERICAN ALONE HOUSEHOLDER)
-# 139	B25003B_002	Estimate!!Total:!!Owner occupied	TENURE (BLACK OR AFRICAN AMERICAN ALONE HOUSEHOLDER)
-# 140	B25003B_003	Estimate!!Total:!!Renter occupied	TENURE (BLACK OR AFRICAN AMERICAN ALONE HOUSEHOLDER)
-# 141	B25003C_001	Estimate!!Total:	TENURE (AMERICAN INDIAN AND ALASKA NATIVE ALONE HOUSEHOLDER)
-# 142	B25003C_002	Estimate!!Total:!!Owner occupied	TENURE (AMERICAN INDIAN AND ALASKA NATIVE ALONE HOUSEHOLDER)
-# 143	B25003C_003	Estimate!!Total:!!Renter occupied	TENURE (AMERICAN INDIAN AND ALASKA NATIVE ALONE HOUSEHOLDER)
-# 144	B25003D_001	Estimate!!Total:	TENURE (ASIAN ALONE HOUSEHOLDER)
-# 145	B25003D_002	Estimate!!Total:!!Owner occupied	TENURE (ASIAN ALONE HOUSEHOLDER)
-# 146	B25003D_003	Estimate!!Total:!!Renter occupied	TENURE (ASIAN ALONE HOUSEHOLDER)
-# 147	B25003E_001	Estimate!!Total:	TENURE (NATIVE HAWAIIAN AND OTHER PACIFIC ISLANDER ALONE HOUSEHOLDER)
-# 148	B25003E_002	Estimate!!Total:!!Owner occupied	TENURE (NATIVE HAWAIIAN AND OTHER PACIFIC ISLANDER ALONE HOUSEHOLDER)
-# 149	B25003E_003	Estimate!!Total:!!Renter occupied	TENURE (NATIVE HAWAIIAN AND OTHER PACIFIC ISLANDER ALONE HOUSEHOLDER)
-# 150	B25003F_001	Estimate!!Total:	TENURE (SOME OTHER RACE ALONE HOUSEHOLDER)
-# 151	B25003F_002	Estimate!!Total:!!Owner occupied	TENURE (SOME OTHER RACE ALONE HOUSEHOLDER)
-# 152	B25003F_003	Estimate!!Total:!!Renter occupied	TENURE (SOME OTHER RACE ALONE HOUSEHOLDER)
-# 153	B25003G_001	Estimate!!Total:	TENURE (TWO OR MORE RACES HOUSEHOLDER)
-# 154	B25003G_002	Estimate!!Total:!!Owner occupied	TENURE (TWO OR MORE RACES HOUSEHOLDER)
-# 155	B25003G_003	Estimate!!Total:!!Renter occupied	TENURE (TWO OR MORE RACES HOUSEHOLDER)
-# 156	B25003H_001	Estimate!!Total:	TENURE (WHITE ALONE, NOT HISPANIC OR LATINO HOUSEHOLDER)
-# 157	B25003H_002	Estimate!!Total:!!Owner occupied	TENURE (WHITE ALONE, NOT HISPANIC OR LATINO HOUSEHOLDER)
-# 158	B25003H_003	Estimate!!Total:!!Renter occupied	TENURE (WHITE ALONE, NOT HISPANIC OR LATINO HOUSEHOLDER)
-# 159	B25003I_001	Estimate!!Total:	TENURE (HISPANIC OR LATINO HOUSEHOLDER)
-# 160	B25003I_002	Estimate!!Total:!!Owner occupied	TENURE (HISPANIC OR LATINO HOUSEHOLDER)
-# 161	B25003I_003	Estimate!!Total:!!Renter occupied	TENURE (HISPANIC OR LATINO HOUSEHOLDER)
-
-
-race_eth_vars = c('B25003A_001', 'B25003A_002', 'B25003A_003', 'B25003B_001', 'B25003B_002', 'B25003B_003', 'B25003C_001', 'B25003C_002', 'B25003C_003',
-              'B25003D_001', 'B25003D_002', 'B25003D_003', 'B25003E_001', 'B25003E_002', 'B25003E_003', 'B25003F_001', 'B25003F_002', 'B25003F_003',
-              'B25003G_001', 'B25003G_002', 'B25003G_003', 'B25003H_001', 'B25003H_002', 'B25003H_003', 'B25003I_001', 'B25003I_002', 'B25003I_003')
-
-race_eth_vars_rename <- c('white_total', 'white_owner', 'white_renter', 'black_total', 'black_owner', 'black_renter','indigenous_total', 'indigenous_owner', 'indigenous_renter',
-                      'asian_total', 'asian_owner', 'asian_renter','hawaiian_pi_total', 'hawaiian_pi_owner', 'hawaiian_pi_renter','other_total', 'other_owner', 'other_renter',
-                      'two_or_more_total', 'two_or_more_owner', 'two_or_more_renter','white_non_lat_total', 'white_non_lat_owner', 'white_non_lat_renter','lat_hisp_total', 'lat_hisp_owner', 'lat_hisp_renter')
-
-
-
-by_race_eth <- get_acs(geography = "tract", 
-                   state = 'NY',
-                   county = c('Kings County', 'Queens County', 
-                              'Richmond County', 'Bronx County',
-                              'New York County'), 
-                   variables = race_eth_vars,
-                   year = 2020,
-                   survey = 'acs5') %>% 
-  clean_names()
-
-by_race_eth_wide <- by_race_eth %>% 
-  select(-moe) %>% 
-  pivot_wider(names_from = 'variable', values_from = 'estimate')
-
-
-for(i in 1:length(race_eth_vars)) names(by_race_eth_wide)[names(by_race_eth_wide) == race_eth_vars[i]] = race_eth_vars_rename[i]
-
-
-# calculate owner rate by race
-
-by_race_ownership_rate_tract <- by_race_eth_wide %>% 
-  mutate(white_owner_rate = round(white_owner/white_total, 2),
-         black_owner_rate = round(black_owner/black_total, 2),
-         indigenous_owner_rate = round(indigenous_owner/indigenous_total, 2),
-         asian_owner_rate = round(asian_owner/asian_total, 2),
-         hawaiian_pi_owner_rate = round(hawaiian_pi_owner/hawaiian_pi_total, 2),
-         other_owner_rate = round(other_owner/other_total, 2),
-         two_or_more_owner_rate = round(two_or_more_owner/two_or_more_total, 2),
-         white_non_lat_owner_rate = round(white_non_lat_owner/white_non_lat_total, 2),
-         lat_hisp_owner_rate = round(lat_hisp_owner/lat_hisp_total, 2))
-
-
-# join to tract data
-
-tract_by_race_ownershp_geo <- left_join(tracts, by_race_ownership_rate_tract)
-
-
-# map it
-
-# pal_by_race_ownership_rate <- colorBin(palette = "Blues",
-#                             domain = , na.color = "transparent")
-# 
-# city_wide_geo <- left_join(tracts, city_wide)
-# 
-# leaflet(data = city_wide_geo) %>% 
-#   addProviderTiles("CartoDB.Positron") %>% 
-#   addPolygons(color = ~city_wide_pal(owned_rate),
-#               weight = 0,
-#               fillOpacity = 1) %>% 
-#   addLegend(position ="topleft", 
-#             pal = city_wide_pal,
-#             opacity = 1,
-#             values = city_wide_geo$owned_rate,
-#             title = paste("Home Ownership Rate, by Tract")) 
-
-values_sum <- list(values = colSums(Filter(is.numeric, by_race_eth_wide)))
-column_names <- colnames(Filter(is.numeric, by_race_eth_wide))
-
-by_race_ownership_rate_city <- as.data.frame(do.call(rbind, values_sum))
-
-by_race_ownership_rate_city <- as_tibble(by_race_ownership_rate_city) %>% 
-  mutate(white_owner_rate = round(white_owner/white_total, 2),
-         black_owner_rate = round(black_owner/black_total, 2),
-         indigenous_owner_rate = round(indigenous_owner/indigenous_total, 2),
-         asian_owner_rate = round(asian_owner/asian_total, 2),
-         hawaiian_pi_owner_rate = round(hawaiian_pi_owner/hawaiian_pi_total, 2),
-         other_owner_rate = round(other_owner/other_total, 2),
-         two_or_more_owner_rate = round(two_or_more_owner/two_or_more_total, 2),
-         white_non_lat_owner_rate = round(white_non_lat_owner/white_non_lat_total, 2),
-         lat_hisp_owner_rate = round(lat_hisp_owner/lat_hisp_total, 2)) %>% 
-  select(white_owner_rate, black_owner_rate, indigenous_owner_rate, asian_owner_rate,
-         hawaiian_pi_owner_rate, other_owner_rate, two_or_more_owner_rate,
-         white_non_lat_owner_rate, lat_hisp_owner_rate) 
-
-brorc_pivot <- by_race_ownership_rate_city %>% 
-  rename('White' = white_owner_rate,
-         'Black' = black_owner_rate,
-         'Indigenous' = indigenous_owner_rate,
-         'Asian' = asian_owner_rate,
-         'Hawaiian/Pacific Islander' = hawaiian_pi_owner_rate,
-         'Other Race' = other_owner_rate,
-         'Two or More Races' = two_or_more_owner_rate,
-         'White Non-Latin/Hispanic' = white_non_lat_owner_rate,
-         'Latin/Hispanic' = lat_hisp_owner_rate) %>% 
-  pivot_longer(cols = 1:length(colnames(by_race_ownership_rate_city)))
-
-
-
-
-ggplot(data = brorc_pivot, aes(x = name, y = value, fill = name)) +
-  geom_bar(stat = 'identity') +
-  labs(x = 'Race/Ethnicity', y = 'Ownership Rate', 
-       title = 'Rate of Home Ownership by Race/Ethnicity, NYC') +
-  theme_minimal() +
-  guides(x = guide_axis(n.dodge = 2))
-  
 
 
 
@@ -345,6 +373,10 @@ ggplot(data = brorc_pivot, aes(x = name, y = value, fill = name)) +
 # 182	B25007_021	Estimate!!Total:!!Renter occupied:!!Householder 85 years and over	TENURE BY AGE OF HOUSEHOLDER
 
 
+
+#' TO DO
+#' 
+
 age_vars = c('B25007_001', 'B25007_002', 'B25007_003', 'B25007_004', 'B25007_005', 'B25007_006', 'B25007_007',
               'B25007_008', 'B25007_009', 'B25007_010', 'B25007_011', 'B25007_012', 'B25007_013', 'B25007_014',
               'B25007_015', 'B25007_016', 'B25007_017', 'B25007_018', 'B25007_019', 'B25007_020', 'B25007_021')
@@ -361,7 +393,7 @@ by_age <- get_acs(geography = "tract",
                               'Richmond County', 'Bronx County',
                               'New York County'), 
                    variables = age_vars,
-                   year = 2020,
+                   year = year,
                    survey = 'acs5') %>% 
   clean_names()
 
@@ -393,7 +425,7 @@ by_total_pop <- get_acs(geography = "tract",
                               'Richmond County', 'Bronx County',
                               'New York County'), 
                    variables = pop_vars,
-                   year = 2020,
+                   year = year,
                    survey = 'acs5') %>% 
   clean_names()
 
@@ -465,7 +497,7 @@ ct_ages <- get_acs(geography = "tract",
                                    'Richmond County', 'Bronx County',
                                    'New York County'), 
                         variables = age_sex_vars,
-                        year = 2020,
+                        year = year,
                         survey = 'acs5') %>% 
   clean_names()
 
