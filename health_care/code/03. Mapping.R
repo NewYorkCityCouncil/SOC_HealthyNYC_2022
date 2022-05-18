@@ -6,6 +6,12 @@ library(leaflet)
 library(htmltools)
 library(leaflet.extras)
 
+############
+# Calculate Proportion of Area 10min Walking Distances Covers Each NTA
+#
+# The logic here is that the larger the intersection, the more 'access' you have to any hospital/clinic.
+# If you could be anywhere in the NTA and be at most 10 min away from any of those facilities.
+############
 # Add column of how many overlaps
 nta_df$num_intersect <- apply(st_intersects(nta_df, mapping_data, sparse = FALSE),1,sum)
 
@@ -13,15 +19,22 @@ nta_df$num_intersect <- apply(st_intersects(nta_df, mapping_data, sparse = FALSE
 nta_df$NTA_area <- st_area(nta_df)
 
 # Calculate area and tidy up
-intersect_pct <- st_intersection(nta_df, st_union(st_geometry(mapping_data))) %>% 
+intersect_pct <- st_intersection(nta_df, st_union(st_geometry(mapping_data))) %>% # Combine all of the 10m walking radius into many amorphous blobs (but one layer)
   mutate(intersect_area = st_area(.)) %>%   # create new column with shape area
   dplyr::select(NTA2020, intersect_area, NTA_area) %>%   # only select columns needed to merge
   st_drop_geometry() %>%  # drop geometry as we don't need it
-  mutate(perc_overlap_area = as.numeric(intersect_area/NTA_area)) 
+  mutate(perc_overlap_area = as.numeric(intersect_area/NTA_area)) # Calculate proportion of overlap
 
+# Merge the proportion of overlap with original nta_df
 nta_df <- merge(nta_df,intersect_pct %>% select(NTA2020,perc_overlap_area),by="NTA2020",all.x = T) %>%
   # Replace NAs with 0
   mutate(perc_overlap_area = ifelse(is.na(perc_overlap_area),0,perc_overlap_area))
+
+############
+# Map It!
+#
+# Making several decisions here including the bins of both proportion of area covered and income
+############
 
 # Add clinic or hospital classification for icon marker
 mapping_data <- mapping_data %>%
@@ -32,6 +45,7 @@ IconSet <- iconList(
   clinic = makeIcon(iconUrl = "../data/icons/clinics.png", iconWidth = 19, iconHeight = 19)
 )
 
+# Labels when clicking on the markers
 icon_labels <- paste("<h3>",mapping_data$facility_name,"</h3>",
                      "<p>",mapping_data$address1,"<br>", mapping_data$city, ",", mapping_data$state, mapping_data$fac_zip,"</p>",
                      "<p>","Description: ",mapping_data$description,"</p>"
@@ -44,53 +58,60 @@ icon_labels <- paste("<h3>",mapping_data$facility_name,"</h3>",
                      #"</ol>"
 )
 
-# source legend
-source_legend <- HTML('<small> Source: NYC Planning, NYS DOH </small>')
-
-# Pop-ups for NTAs
+# Labels when clicking on the map
 map_labels <- paste("<h3>",nta_df$NTA2020,"<br>",nta_df$NTAName,"</h3><hr>","<p><b> Median Household Income:</b>", scales::dollar(nta_df$med_income),
                     "<br>","<b>Percent of NTA within 10 min walk:</b>",scales::percent(nta_df$perc_overlap_area, accuracy = 2),"</p>")
+# Source legend
+source_legend <- HTML('<small> Source: NYC Planning, NYS DOH </small>')
 
 # Make the chloropleth!
 # Color binning
 # Method 1: Access represented by polygon fill / Med Income represented by border color
-nat_perc_area = classIntervals(nta_df$perc_overlap_area * 100, n = 4, style = 'jenks')
+nat_perc_area <- classIntervals(nta_df$perc_overlap_area * 100, n = 4, style = 'jenks') # Natural binning
 pal_area <- colorBin(
   palette = c('#d5dded', '#afb9db', '#8996ca', '#2f56a6'),
   bins = c(c(round(nat_perc_area$brks,0)[1], round(nat_perc_area$brks,0)[2:4], round(nat_perc_area$brks,0)[5])),
   na.color = "Grey",
   domain = nta_df$perc_overlap_area * 100)
 
+quant_income <- classIntervals(nta_df$med_income, n = 4, style = 'quantile') #Quantile binning
 pal_income <- colorBin(
-  palette = c('#B63F26','#CACACA','#007534'),
-  bins = c(0,55000,100000,150000),
+  palette = c('#B63F26'),
+  bins = c(0,quant_income$brks[2] + 1),
   domain = nta_df$med_income, 
   na.color = "#CACACA"
 )
 
-# median income legend  
-med_income_legend <- HTML('<div> <strong style="color: #B63F26">Low Income</strong> <br>
-                          <strong style="color: #CACACA">Medium Income</strong> <br>
-                          <strong style="color: #007534">High Income</strong></div>')
+# Median income legend  
+med_income_legend <- HTML('<div> <strong style="color: #B63F26">Bottom 25% Income</strong> <br>
+<small>(Household Median Income less than $47,572)</small></div>')
+
+#<strong style="color: #CACACA">Medium Income</strong> <br>
+#<strong style="color: #007534">High Income</strong></div>')
 
 leaflet() %>%
   setView(-73.984865,40.710542,10.5) %>%
   #addProviderTiles("CartoDB.Positron") %>%
   addPolygons(data=nta_df,
-              weight = 2,
-              color = ~pal_income(nta_df$med_income),
+              weight = 1,
+              opacity = 0,
               fillColor = ~pal_area(nta_df$perc_overlap_area * 100),
-              fillOpacity = 0.9,
-              popup = ~lapply(map_labels, HTML),
-              group = "Median Income") %>%
-  addLegend(position ="topright", 
+              fillOpacity = 1,
+              popup = ~lapply(map_labels, HTML)) %>%
+  addLegend(position ="topleft", 
             pal = pal_area, 
             opacity = 0.9,
             values = nta_df$perc_overlap_area*100,
             title =  "Percent of area close to <br>Hospitals/Clinics <br> <small>(within 10 min walk)</small><hr>",
-            labFormat = labelFormat(suffix = "%"), 
-            group = "Median Income") %>%
+            labFormat = labelFormat(suffix = "%")) %>%
   # Overlay groups
+  addPolygons(data = nta_df %>% filter(med_income <= quant_income$brks[2]),
+              weight = 2,
+              fill=F,
+              stroke = TRUE,
+              opacity = 1,
+              color = "#B63F26",
+              group = "Bottom 25% Median Income") %>%
   addMarkers(data = mapping_data,
              lng = ~as.numeric(longitude), 
              lat = ~as.numeric(latitude),
@@ -102,13 +123,15 @@ leaflet() %>%
   addLayersControl(
     overlayGroups = c("Add Hospitals/Clinics"),
     options = layersControlOptions(collapsed = TRUE),
-    position = "bottomleft"
+    position = "topright"
   ) %>%
-  # Show markers only when zoomLevels are at 12.5+
+  #Show markers only when zoomLevels are at 12.5+
   groupOptions("Add Hospitals/Clinics", zoomLevels = 12.5:20) %>%
   setMapWidgetStyle(list(background= "white")) %>%
-  addControl(med_income_legend, position = "topright") %>%
-  addControl(source_control, position = "bottomright")
+  addControl(med_income_legend, position = "topleft") %>%
+  addControl(source_legend, position = "bottomright")
+
+#########
 
 # Method 2: Med Income represented by polygon fill / Access represented by border color
 pal_income <- colorBin(
@@ -136,7 +159,7 @@ leaflet() %>%
               weight = 2,
               color = ~pal_area(nta_df$perc_overlap_area * 100),
               fillColor = ~pal_income(nta_df$med_income),
-              fillOpacity = 0.9,
+              fillOpacity = 1,
               popup = ~lapply(map_labels, HTML),
               group = "Median Income") %>%
   addControl(med_income_legend, position = "topright") %>%
