@@ -1,10 +1,10 @@
 library(stringr)
 library(jsonlite)
 library(dplyr)
-library(classInt)
+library(mapboxapi)
 library(sf)
-library(tidycensus)
-library(tidyverse)
+#library(tidycensus)
+#library(tidyverse)
 sf::sf_use_s2(FALSE)
 
 # function to unzip shapefile -----------
@@ -29,7 +29,8 @@ unzip_sf <- function(zip_url) {
 
 df <- fromJSON("https://health.data.ny.gov/resource/875v-tpc8.json?$limit=999999999")
 nyc_df <- df %>%
-  filter(county %in% c("New York", "Kings","Bronx","Queens","Richmond"))
+  filter(county %in% c("New York", "Kings","Bronx","Queens","Richmond"),
+         city != "Elmont") # Remove that one LI location
 
 #HH_df <- nyc_df %>%
 #  filter(operator_name == "New York City Health and Hospital Corporation",
@@ -155,4 +156,7 @@ nta_df <- nta_shp %>%
   # Read in median income data/NTA
   left_join(read.csv("../data/NTA2020_med_income.csv")) %>%
   # Clean the uncertains and -9999
-  mutate(med_income = ifelse(!is.na(med_income_cv),as.numeric(gsub(",","",med_income)),NA))
+  mutate(med_income = ifelse(!is.na(med_income_cv),as.numeric(gsub(",","",med_income)),NA)) %>%
+  # Add centroids
+  mutate(centroid_lon = map_dbl(geometry, ~st_centroid(.x)[[1]]),
+         centroid_lat = map_dbl(geometry, ~st_centroid(.x)[[2]]))

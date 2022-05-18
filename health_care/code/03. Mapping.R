@@ -1,6 +1,7 @@
 # Load all the variables and packages
-source("02. Data Wrangling")
+source("02. Data Wrangling.R")
 
+library(classInt)
 library(leaflet)
 library(htmltools)
 library(leaflet.extras)
@@ -67,7 +68,7 @@ pal_income <- colorBin(
   na.color = "#CACACA"
 )
 
-# park_access legend  
+# median income legend  
 med_income_legend <- HTML('<div> <strong style="color: #B63F26">Low Income</strong> <br>
                           <strong style="color: #CACACA">Medium Income</strong> <br>
                           <strong style="color: #007534">High Income</strong></div>')
@@ -103,6 +104,8 @@ leaflet() %>%
     options = layersControlOptions(collapsed = TRUE),
     position = "bottomleft"
   ) %>%
+  # Show markers only when zoomLevels are at 12.5+
+  groupOptions("Add Hospitals/Clinics", zoomLevels = 12.5:20) %>%
   setMapWidgetStyle(list(background= "white")) %>%
   addControl(med_income_legend, position = "topright") %>%
   addControl(source_control, position = "bottomright")
