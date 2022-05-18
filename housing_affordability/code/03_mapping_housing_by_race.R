@@ -8,10 +8,12 @@
 
 
 list.of.packages <- c("tidyverse", "janitor", "sf", "leaflet", "leaflet.extras", 
-                      "htmlwidgets", "RSocrata", "tidycensus", "jsonlite", "remotes")
+                      "htmlwidgets", "RSocrata", "tidycensus", "jsonlite", "remotes",
+                      'classInt', 'mapview')
 
 # checks if packages has been previously installed
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+
 
 # if not, packages are installed
 if(length(new.packages)) install.packages(new.packages)
@@ -261,7 +263,7 @@ brew_nta_group <- brew_nta %>%
 rate_calc <- function(est_tot, est_own, moe_tot, moe_own) {
   ifelse(moe_tot >= est_tot | moe_own >= est_own,
          'Insufficient Data',
-         as.character(round(est_own/est_tot, 2)))
+         paste0(as.character(round(est_own/est_tot * 100, 0)), "%"))
 }
 
 brew_nta_group <- brew_nta_group %>% 
@@ -281,13 +283,18 @@ all_dat <- left_join(nta, cwnta_group) %>%
   left_join(brew_nta_group)
 
 
-all_dat$all_owner_rate <- all_dat$estimate_owner_occupied / (all_dat$estimate_owner_occupied + all_dat$estimate_renter_occupied)
+all_dat$all_owner_rate <- all_dat$estimate_owner_occupied / (all_dat$estimate_owner_occupied + all_dat$estimate_renter_occupied) * 100
 
 
 # leaflet map of ownership rate
 
+plot(density(all_dat$all_owner_rate, na.rm = TRUE))
+
+classints <- classIntervals(na.omit(all_dat$all_owner_rate), n = 5, style = 'equal')
+
 city_wide_pal <- colorBin(palette = c('#d5dded', '#afb9db', '#8996ca', '#6175b8', '#2f56a6'),
-                          domain = all_dat$all_owner_rate, na.color = "transparent")
+                          domain = all_dat$all_owner_rate, na.color = "transparent",
+                          bins = classints$brks)
 
 
 
@@ -306,7 +313,8 @@ popup <- paste0('<h3>Ownership Rate by Race/Ethnicity</h3>',
 
 
 
-leaflet() %>% 
+map <- leaflet() %>% 
+  setView(-73.97, 40.718, zoom = 10.5) %>% 
   addPolygons(data = all_dat,
               color = ~city_wide_pal(all_owner_rate),
               weight = 0,
@@ -316,5 +324,13 @@ leaflet() %>%
             pal = city_wide_pal,
             opacity = 1,
             values = city_wide_geo$owned_rate,
-            title = paste("Home Ownership Rate, by Tract")) %>% 
+            title = paste("Home Ownership Rate by Tract"),
+            labFormat = labelFormat(digits = 0, suffix = "%", between = "% - ")) %>% 
   setMapWidgetStyle(list(background= "white"))
+
+map
+
+saveWidget(map, file="housing_affordability/visual/race_eth_home_ownership_map.html")
+
+mapshot(map, file="housing_affordability/visual/race_eth_home_ownership_map.png", 
+        vwidth = 900, vheight = 870, remove_controls = 'zoomControl')
