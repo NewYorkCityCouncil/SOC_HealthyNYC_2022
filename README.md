@@ -3,44 +3,49 @@ Our data requests for the NYC Council's Speaker Adams State of the City Address 
 
 ***  
 
-## Visuals in SOC
+## Data Visuals
 
 ### COVID's Impact & Health Disparities
 
 **Covid death rate map takeaways**
 [text here about the visual] Interactive version (insert link)
 
-[<img src="https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/map_covid.png" width="800" height="730"/>](https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/map_covid.png)
-
+<img src="https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/map_covid.png" width="800" height="730"/>
 
 
 **Health & Population Disparities Table takeaways**
 [text here about the visual] Interactive version (insert link)
 
-[<img src="https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/Covid_Plot_nocolor.png"/>](https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/Covid_Plot_nocolor.png)
+<img src="https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/Covid_Plot_nocolor.png"/>
                                                                                                                               
                                                                                                                            
 For more info on the data sources and methodology [insert covid impact folder/.readme] 
 
-### COVID's Impact & Health Disparities
+***
 
-Covid death rate map takeaways
+### Affordable Homeownership
+
+Homeownership rates by race in NYC
+[text here about the visual] Interactive version (insert link)
+
+<img src="https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/housing_affordability/visual/Home%20Ownership%20Rate%20by%20Race%20Ethnicity.png" width="800" height="700">
+
+Homeownership across the city & median income
 [insert visual]
 
-Health & Population Disparities Table takeaways
-[insert visual]
+For more info on the data sources and methodology [insert homeownership folder/.readme]
 
-For more info on the data sources and methodology [insert covid impact folder/.readme]
+***
 
-### COVID's Impact & Health Disparities
+### Expanding Health 
 
-Covid death rate map takeaways
-[insert visual]
+Access to Ambulatory Care & Diagnostic Facilities
 
-Health & Population Disparities Table takeaways
-[insert visual]
+![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/health_care/visual/NYC_Health_Access.png)
 
-For more info on the data sources and methodology [insert covid impact folder/.readme]
+[text here about the visual] [Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/health_care/visual/)
+
+For more info on the data sources and methodology [insert health care folder/.readme]
 
 ### COVID's Impact & Health Disparities
 
