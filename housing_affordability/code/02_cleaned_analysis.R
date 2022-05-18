@@ -19,7 +19,7 @@ lapply(list.of.packages, require, character.only = TRUE)
 
 # returns TRUE if package was loaded successfully
 
-year = 2020
+year = 2019
 
 census_api_key(tidy_key, install = TRUE)
 
@@ -27,7 +27,7 @@ census_api_key(tidy_key, install = TRUE)
 rm(list=ls())
 
 
-v20 <- load_variables(year, "acs5", cache = TRUE)
+v19 <- load_variables(year, "acs5", cache = TRUE)
 
 
 ### Background ------------
@@ -60,45 +60,15 @@ v20 <- load_variables(year, "acs5", cache = TRUE)
 
 
 # Load Census Tracts Dataset ----------------------------------------------
+# https://data.cityofnewyork.us/City-Government/2010-Census-Tracts/fxpq-c8ku
 
-tracts <- read_sf('housing_affordability/data/2020 Census Tracts - Tabular/geo_export_c2cde8a0-e3cc-46bd-97a1-c9d18c356d24.shp') %>% 
+tracts <- read_sf('housing_affordability/data/2010 Census Tracts/geo_export_e7ed8d89-3627-472d-869d-d0c868bc6e6d.shp') %>% 
   st_transform('+proj=longlat +datum=WGS84')
 
 
 
 
 # race/ethnicity and ownership/renting ----------------------------------------------
-
-
-
-# Estimate!!Total:	TENURE (WHITE ALONE HOUSEHOLDER)
-# 136	B25003A_002	Estimate!!Total:!!Owner occupied	TENURE (WHITE ALONE HOUSEHOLDER)
-# 137	B25003A_003	Estimate!!Total:!!Renter occupied	TENURE (WHITE ALONE HOUSEHOLDER)
-# 138	B25003B_001	Estimate!!Total:	TENURE (BLACK OR AFRICAN AMERICAN ALONE HOUSEHOLDER)
-# 139	B25003B_002	Estimate!!Total:!!Owner occupied	TENURE (BLACK OR AFRICAN AMERICAN ALONE HOUSEHOLDER)
-# 140	B25003B_003	Estimate!!Total:!!Renter occupied	TENURE (BLACK OR AFRICAN AMERICAN ALONE HOUSEHOLDER)
-# 141	B25003C_001	Estimate!!Total:	TENURE (AMERICAN INDIAN AND ALASKA NATIVE ALONE HOUSEHOLDER)
-# 142	B25003C_002	Estimate!!Total:!!Owner occupied	TENURE (AMERICAN INDIAN AND ALASKA NATIVE ALONE HOUSEHOLDER)
-# 143	B25003C_003	Estimate!!Total:!!Renter occupied	TENURE (AMERICAN INDIAN AND ALASKA NATIVE ALONE HOUSEHOLDER)
-# 144	B25003D_001	Estimate!!Total:	TENURE (ASIAN ALONE HOUSEHOLDER)
-# 145	B25003D_002	Estimate!!Total:!!Owner occupied	TENURE (ASIAN ALONE HOUSEHOLDER)
-# 146	B25003D_003	Estimate!!Total:!!Renter occupied	TENURE (ASIAN ALONE HOUSEHOLDER)
-# 147	B25003E_001	Estimate!!Total:	TENURE (NATIVE HAWAIIAN AND OTHER PACIFIC ISLANDER ALONE HOUSEHOLDER)
-# 148	B25003E_002	Estimate!!Total:!!Owner occupied	TENURE (NATIVE HAWAIIAN AND OTHER PACIFIC ISLANDER ALONE HOUSEHOLDER)
-# 149	B25003E_003	Estimate!!Total:!!Renter occupied	TENURE (NATIVE HAWAIIAN AND OTHER PACIFIC ISLANDER ALONE HOUSEHOLDER)
-# 150	B25003F_001	Estimate!!Total:	TENURE (SOME OTHER RACE ALONE HOUSEHOLDER)
-# 151	B25003F_002	Estimate!!Total:!!Owner occupied	TENURE (SOME OTHER RACE ALONE HOUSEHOLDER)
-# 152	B25003F_003	Estimate!!Total:!!Renter occupied	TENURE (SOME OTHER RACE ALONE HOUSEHOLDER)
-# 153	B25003G_001	Estimate!!Total:	TENURE (TWO OR MORE RACES HOUSEHOLDER)
-# 154	B25003G_002	Estimate!!Total:!!Owner occupied	TENURE (TWO OR MORE RACES HOUSEHOLDER)
-# 155	B25003G_003	Estimate!!Total:!!Renter occupied	TENURE (TWO OR MORE RACES HOUSEHOLDER)
-# 156	B25003H_001	Estimate!!Total:	TENURE (WHITE ALONE, NOT HISPANIC OR LATINO HOUSEHOLDER)
-# 157	B25003H_002	Estimate!!Total:!!Owner occupied	TENURE (WHITE ALONE, NOT HISPANIC OR LATINO HOUSEHOLDER)
-# 158	B25003H_003	Estimate!!Total:!!Renter occupied	TENURE (WHITE ALONE, NOT HISPANIC OR LATINO HOUSEHOLDER)
-# 159	B25003I_001	Estimate!!Total:	TENURE (HISPANIC OR LATINO HOUSEHOLDER)
-# 160	B25003I_002	Estimate!!Total:!!Owner occupied	TENURE (HISPANIC OR LATINO HOUSEHOLDER)
-# 161	B25003I_003	Estimate!!Total:!!Renter occupied	TENURE (HISPANIC OR LATINO HOUSEHOLDER)
-
 
 
 #' To Do

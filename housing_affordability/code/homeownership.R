@@ -61,7 +61,7 @@ v20 <- load_variables(year, "acs5", cache = TRUE)
 
 # Load Census Tracts Dataset ----------------------------------------------
 
-tracts <- read_sf('housing_affordability/data/year Census Tracts - Tabular/geo_export_c2cde8a0-e3cc-46bd-97a1-c9d18c356d24.shp') %>% 
+tracts <- read_sf('housing_affordability/data/2020 Census Tracts - Tabular/geo_export_c2cde8a0-e3cc-46bd-97a1-c9d18c356d24.shp') %>% 
   st_transform('+proj=longlat +datum=WGS84')
 
 
