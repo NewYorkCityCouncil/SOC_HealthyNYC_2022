@@ -1,7 +1,10 @@
 # SOC Expand Health 
 Our data requests for the NYC Council's Speaker Adams State of the City Address on #ExpandHealth https://council.nyc.gov/state-of-the-city-2022/
 
-***  
+***   
+
+### Folder Structure
+Sub folder for each issue area. Within each subfolder, we have code, data and visual subdirectories, and readme.
 
 ## Data Visuals
 
@@ -19,6 +22,8 @@ Our data requests for the NYC Council's Speaker Adams State of the City Address 
 [text here about the visual] Interactive version (insert link)
 
 <img src="https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/map_covid.png" width="800" height="730"/>
+
+***  
 
 
 **Health & Population Disparities Table takeaways**
@@ -55,7 +60,10 @@ Access to Ambulatory Care & Diagnostic Facilities
 
 For more info on the data sources and methodology [insert health care folder/.readme]
 
-### COVID's Impact & Health Disparities
+***  
+
+
+### Food Insecurity
 
 Covid death rate map takeaways
 [insert visual]
@@ -65,7 +73,38 @@ Health & Population Disparities Table takeaways
 
 For more info on the data sources and methodology [insert covid impact folder/.readme]
 
-### COVID's Impact & Health Disparities
+***  
+
+
+### Park Access
+
+Covid death rate map takeaways
+[insert visual]
+
+Health & Population Disparities Table takeaways
+[insert visual]
+
+For more info on the data sources and methodology [insert covid impact folder/.readme]
+
+***  
+
+
+
+### Digital Divide
+
+Covid death rate map takeaways
+[insert visual]
+
+Health & Population Disparities Table takeaways
+[insert visual]
+
+For more info on the data sources and methodology [insert covid impact folder/.readme]
+
+***  
+
+
+
+### Language Access
 
 Covid death rate map takeaways
 [insert visual]
@@ -77,4 +116,4 @@ For more info on the data sources and methodology [insert covid impact folder/.r
 
 
 
-### Folder Structure
+
