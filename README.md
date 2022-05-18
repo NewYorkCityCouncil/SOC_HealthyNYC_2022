@@ -5,6 +5,14 @@ Our data requests for the NYC Council's Speaker Adams State of the City Address 
 
 ## Data Visuals
 
++ [COVID-19 Impact and Health Disparities](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/edit/master/README.md#covids-impact--health-disparities)
++ [Affordable Homeownership](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/edit/master/README.md#affordable-homeownership)
++ [Expanding Health](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/edit/master/README.md#expanding-health)
++ [Food Insecurity]()
++ [Park Access]()
++ [Digital Divide]()
++ [Language Access]()
+
 ### COVID's Impact & Health Disparities
 
 **Covid death rate map takeaways**
