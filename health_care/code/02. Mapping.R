@@ -60,13 +60,13 @@ pal_income <- colorBin(
 )
 
 # Median income legend  
-med_income_legend <- HTML('<div> <strong style="color: #B63F26">Bottom 25% Income</strong> <br>
+med_income_legend <- HTML('<div> <strong style="color: #9B3D2C">Bottom 25% Income</strong> <br>
 <small>(Median Household Income less than $47,572)</small></div>')
 
 #<strong style="color: #CACACA">Medium Income</strong> <br>
 #<strong style="color: #007534">High Income</strong></div>')
 
-map <- leaflet() %>%
+leaflet() %>%
   setView(-73.984865,40.710542,10.5) %>%
   #addProviderTiles("CartoDB.Positron") %>%
   addPolygons(data=nta_df,
