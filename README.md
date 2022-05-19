@@ -65,8 +65,11 @@ For more info on the data sources and methodology [insert health care folder/.re
 
 ### Food Insecurity
 
-Covid death rate map takeaways
-[insert visual]
+Supply gap map 
+[text here about the visual] 
+[Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/food_access/visual/efap_score.html)
+
+![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/food_access/visual/efap_score.png)
 
 Health & Population Disparities Table takeaways
 [insert visual]
