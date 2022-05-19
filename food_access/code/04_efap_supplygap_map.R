@@ -33,14 +33,14 @@ pal_nta <- colorBin(
   na.color = "#e5f1ea"
 )
 
-pal_efap <- colorFactor(c("#BF8D37"), domain = c("EFAP Locations"))
+pal_efap <- colorFactor(c("#203c74"), domain = c("EFAP Locations"))
 
 # highest need break
 recode <- neigh_prio %>%
   mutate(bottom25 = case_when(fy22_weighted_score>=int_nta$brks[5] ~1,  TRUE ~ 0))
 
 # supply gap legend
-# 
+# need to work on this some more
 addLegendCustom <- function(map, colors, labels, sizes, shapes, borders, opacity = 1){
 
 make_shapes <- function(colors, sizes, borders, shapes) {
@@ -60,7 +60,7 @@ return(addLegend(map, colors = legend_colors, labels = legend_labels, opacity = 
 
 }
 
-
+### map
 map <- leaflet() %>%
   setView(-73.984865,40.710542,10.5) %>%
   setMapWidgetStyle(list(background= "white")) %>% 
@@ -69,7 +69,7 @@ map <- leaflet() %>%
               weight = 1, opacity = 0.6, 
               color = ~pal_nta(fy22_weighted_score),
               fillColor = ~pal_nta(fy22_weighted_score),
-              fillOpacity = 0.9, 
+              fillOpacity = 0.8, 
               popup = lapply(paste("<p>","NTA: ",neigh_prio$nta_name,"</p>", 
                                    "<p>",paste0("Score: ",neigh_prio$fy22_weighted_score),"</p>"), HTML)) %>%
   addPolygons(data = recode, weight = 2, fill=F, opacity = 1,
@@ -78,7 +78,7 @@ map <- leaflet() %>%
     popup = lapply(paste("<p>","Address: ",
                        efap$distadd,"</p>", "<p>",
                   paste0("Boro: ",efap$distboro),"</p>"), HTML),
-    radius = 3, stroke = F, fillColor = "#BF8D37",
+    radius = 3, stroke = F, fillColor = "#203c74",
     fillOpacity = 1) %>%
   addLegend("topleft", pal = pal_nta, 
             values = neigh_prio$fy22_weighted_score,
@@ -87,7 +87,7 @@ map <- leaflet() %>%
             labFormat = labelFormat(digits = 1)) %>%
   #addLegendCustom(colors, labels, sizes, shapes, borders) %>%
 addLegend(data = efap, "topleft", pal = pal_efap,
-          values = efap$locations)
+          values = efap$locations, opacity = 1)
 
 mapshot(map, file = "food_access/visual/efap_score.png", 
         vwidth = 900, vheight = 870)
