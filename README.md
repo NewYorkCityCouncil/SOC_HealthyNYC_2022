@@ -78,13 +78,12 @@ For more info on the data sources and methodology [insert covid impact folder/.r
 
 ### Park Access
 
-Covid death rate map takeaways
-[insert visual]
+Covid death rate & park access
+[text here about the visual] [Interactive version](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.html)
 
-Health & Population Disparities Table takeaways
-[insert visual]
+![insert visual](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.png)
 
-For more info on the data sources and methodology [insert covid impact folder/.readme]
+For more info on the data sources and methodology [visit park equity repo](https://github.com/NewYorkCityCouncil/park_equity_covid_2022)
 
 ***  
 
