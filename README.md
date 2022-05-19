@@ -4,17 +4,17 @@ Our data requests for the NYC Council's Speaker Adams State of the City Address 
 ***   
 
 ### Folder Structure
-Sub folder for each issue area. Within each subfolder, we have code, data and visual subdirectories, and readme.
+This repo contains a folder for each issue area the data team has made a visual for the speech. Within each folder, there is a  code, data and visual subfolder, and readme.
 
 ## Data Visuals
 
-+ [COVID-19 Impact and Health Disparities](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/edit/master/README.md#covids-impact--health-disparities)
-+ [Affordable Homeownership](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/edit/master/README.md#affordable-homeownership)
-+ [Expanding Health](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/edit/master/README.md#expanding-health)
-+ [Food Insecurity]()
-+ [Park Access]()
-+ [Digital Divide]()
-+ [Language Access]()
++ [COVID-19 Impact and Health Disparities](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#covids-impact--health-disparities)
++ [Affordable Homeownership](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#affordable-homeownership)
++ [Expanding Health](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#expanding-health)
++ [Food Insecurity](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#food-insecurity)
++ [Park Access](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#park-access)
++ [Digital Divide](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#digital-divide)
++ [Language Access](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#language-access)
 
 ### COVID's Impact & Health Disparities
 
@@ -65,26 +65,26 @@ For more info on the data sources and methodology [insert health care folder/.re
 
 ### Food Insecurity
 
-Covid death rate map takeaways
-[insert visual]
+Supply gap map 
+[text here about the visual] 
+[Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/food_access/visual/efap_score.html)
 
-Health & Population Disparities Table takeaways
-[insert visual]
+![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/food_access/visual/efap_score.png)
 
-For more info on the data sources and methodology [insert covid impact folder/.readme]
+
+For more info on the data sources and methodology [food_access/.readme]
 
 ***  
 
 
 ### Park Access
 
-Covid death rate map takeaways
-[insert visual]
+Covid death rate & park access
+[text here about the visual] [Interactive version](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.html)
 
-Health & Population Disparities Table takeaways
-[insert visual]
+![alt text](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.png)
 
-For more info on the data sources and methodology [insert covid impact folder/.readme]
+For more info on the data sources and methodology [visit park equity repo](https://github.com/NewYorkCityCouncil/park_equity_covid_2022)
 
 ***  
 
@@ -92,11 +92,17 @@ For more info on the data sources and methodology [insert covid impact folder/.r
 
 ### Digital Divide
 
-Covid death rate map takeaways
-[insert visual]
+Broadband access in NYC
 
-Health & Population Disparities Table takeaways
-[insert visual]
+[text here about the visual] [Interactive version]()
+
+![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/visual/map_puma.png)
+
+Broadband Access Across Population Groups
+
+[text here about the visual] [Interactive version]()
+
+![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/visual/group_comparison.png)
 
 For more info on the data sources and methodology [insert covid impact folder/.readme]
 
