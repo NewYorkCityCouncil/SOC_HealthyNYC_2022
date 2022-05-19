@@ -8,13 +8,13 @@ This repo contains a folder for each issue area the data team has made a visual 
 
 ## Data Visuals
 
-+ [COVID-19 Impact and Health Disparities](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/edit/master/README.md#covids-impact--health-disparities)
-+ [Affordable Homeownership](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/edit/master/README.md#affordable-homeownership)
-+ [Expanding Health](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/edit/master/README.md#expanding-health)
-+ [Food Insecurity]()
-+ [Park Access]()
-+ [Digital Divide]()
-+ [Language Access]()
++ [COVID-19 Impact and Health Disparities](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#covids-impact--health-disparities)
++ [Affordable Homeownership](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#affordable-homeownership)
++ [Expanding Health](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#expanding-health)
++ [Food Insecurity](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#food-insecurity)
++ [Park Access](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#park-access)
++ [Digital Divide](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#digital-divide)
++ [Language Access](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022#language-access)
 
 ### COVID's Impact & Health Disparities
 
