@@ -7,7 +7,7 @@
 
 list.of.packages <- c("tidyverse", "tidycensus",  "janitor", "sf", "leaflet", "leaflet.extras", 
                       "htmlwidgets", "RSocrata", "tidycensus", "jsonlite", 'censusapi',
-                      "survey", "srvyr")
+                      "survey", "srvyr", 'scales')
 
 # checks if packages has been previously installed
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
@@ -19,20 +19,6 @@ if(length(new.packages)) install.packages(new.packages)
 lapply(list.of.packages, require, character.only = TRUE)
 
 # returns TRUE if package was loaded successfully
-
-
-# census data loading
-
-year = 2020
-
-census_api_key(tidy_key, install = TRUE)
-
-
-rm(list=ls())
-
-
-v20 <- load_variables(year = year, "acs5", cache = TRUE)
-
 
 
 ### Background ------------
@@ -185,67 +171,6 @@ v20 <- load_variables(year = year, "acs5", cache = TRUE)
 
 
 
-# get relevant variables 
-
-eng_prof_vars <- c()
-
-for (i in 0:40) {
-  temp = as.character(5+(i*3))
-  if (nchar(temp) < 3) {
-    temp = str_pad(temp, 3, side = 'left', pad = '0')
-  }
-  eng_prof_vars[i] = paste0('B16001_', temp, 'E')
-}
-
-eng_prof_vars <- append(eng_prof_vars, 'B16001_005E')
-
-
-
-# tidycensus data appears null so we're using a different source
-
-
-apis <- listCensusApis() 
-
-
-
-
-acs20 <- getCensus(
-  name = "acs/acs5",
-  vintage = 2019,
-  vars = eng_prof_vars, 
-  region = "tract:*", 
-  regionin = "state:36+county:005,047,081,085,061")
-
-
-
-
-
-# get relevant variables take 2
-
-native_lang_vars <- c()
-
-for (i in 1:42) {
-  temp = as.character(0+(i*3))
-  if (nchar(temp) < 3) {
-    temp = str_pad(temp, 3, side = 'left', pad = '0')
-  }
-  native_lang_vars[i] = paste0('B16001_', temp)
-}
-
-
-
-native_langs <- get_acs(geography = "county", 
-                    state = 'NY',
-                    county = c('Kings County', 'Queens County', 
-                               'Richmond County', 'Bronx County',
-                               'New York County'), 
-                    variables = native_lang_vars,
-                    year = year,
-                    survey = 'acs5') %>% 
-  clean_names()
-
-
-
 
 
 
@@ -278,9 +203,75 @@ language_raw <- read_csv('language_access/data/languages.csv') %>%
 
 
 # join them
+# remove unreliable
+
 
 languages <- left_join(less_than_well, language_raw) %>% 
-  mutate(not_proficient_rate = count/count_total)
+  filter(count_less_than_well > moe,
+         count_total > moe_total)
+
+
+
+
+#languages$not_proficient_rate <- languages$count_less_than_well/languages$count_total
+
+languages$proficient <- languages$count_total - languages$count_less_than_well
+
+
+
+lang_long <- languages %>% 
+  select(-moe, -moe_total, -count_total) %>% 
+  mutate('Not Proficient in English' = count_less_than_well) %>% 
+  rename('Proficient in English' = proficient,
+         Language = language) %>% 
+  pivot_longer(cols = c(`Proficient in English`, `Not Proficient in English`),
+               names_to = 'Proficiency',
+               values_to = 'Count')
+
+lang_long$Proficiency <- lang_long$Proficiency %>% 
+  factor(levels= c("Proficient in English","Not Proficient in English"))
+
+
+lang_long <- lang_long %>% 
+  arrange(desc(count_less_than_well)) %>% 
+  filter(Language != "Spanish")
+
+
+lang_final <- lang_long[1:30,]
+
+
+stacked_bar_fill_palette <- c('#23417d', '#a73226')
+
+
+plot <- ggplot(lang_final, aes(x = reorder(Language, count_less_than_well), y = Count, fill = Proficiency)) +
+  geom_bar(stat = 'identity') + 
+  theme_minimal() +
+  guides(x = guide_axis(n.dodge = 2)) +
+  scale_fill_manual(values=stacked_bar_fill_palette) +
+  scale_x_discrete(labels = c(
+    "Chinese (incl. Mandarin, Cantonese)" = "Chinese (Mand, Cant)",                        
+    "Russian" = "Russian",                                                     
+    "Bengali" = "Bengali",                                                     
+    "Yiddish, Pennsylvania Dutch or other West Germanic languages" = "Yiddish",
+    "Haitian" = "Haitian",                                                     
+    "Korean" = "Korean",                                                      
+    "Arabic" = "Arabic",                                                      
+    "Polish" = "Polish",                                                      
+    "Yoruba, Twi, Igbo, or other languages of Western Africa" = "Western African langs.",     
+    "Urdu" = "Urdu",                                                        
+    "Italian" = "Italian",                                                     
+    "French (incl. Cajun)" = "French (incl. Cajun)",                                        
+    "Other lang. Asia" = "Other lang. Asia",                                     
+    "Other Indo-European languages" = "Other Indo-European",                               
+    "Tagalog (incl. Filipino)" = "Tagalog (incl. Filipino)"
+  )) +
+  scale_y_continuous(labels = comma) +
+  labs(x = "Language Spoken at Home", y = "Total People", 
+       title = "Non-Native English Speakers by Language and English Proficiency") +
+  coord_flip()
+
+
+plot
 
 
 
