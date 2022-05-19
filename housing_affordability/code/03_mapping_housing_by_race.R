@@ -324,7 +324,7 @@ map <- leaflet() %>%
             pal = city_wide_pal,
             opacity = 1,
             values = city_wide_geo$owned_rate,
-            title = paste("Home Ownership Rate by Tract"),
+            title = paste("Home Ownership Rate by NTA"),
             labFormat = labelFormat(digits = 0, suffix = "%", between = "% - ")) %>% 
   setMapWidgetStyle(list(background= "white"))
 
