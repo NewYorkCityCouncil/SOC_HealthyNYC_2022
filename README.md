@@ -29,7 +29,7 @@ This repo contains a folder for each issue area the data team has made a visual 
 **Health & Population Disparities Table takeaways**
 [text here about the visual] Interactive version (insert link)
 
-<img src="https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/Covid_Plot_nocolor.png"/>
+![alt text](https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/Covid_Plot_nocolor.png")
                                                                                                                               
                                                                                                                            
 For more info on the data sources and methodology [insert covid impact folder/.readme] 
@@ -71,10 +71,8 @@ Supply gap map
 
 ![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/food_access/visual/efap_score.png)
 
-Health & Population Disparities Table takeaways
-[insert visual]
 
-For more info on the data sources and methodology [insert covid impact folder/.readme]
+For more info on the data sources and methodology [food_access/.readme]
 
 ***  
 
@@ -84,7 +82,7 @@ For more info on the data sources and methodology [insert covid impact folder/.r
 Covid death rate & park access
 [text here about the visual] [Interactive version](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.html)
 
-![insert visual](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.png)
+![alt text](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.png)
 
 For more info on the data sources and methodology [visit park equity repo](https://github.com/NewYorkCityCouncil/park_equity_covid_2022)
 
@@ -94,11 +92,17 @@ For more info on the data sources and methodology [visit park equity repo](https
 
 ### Digital Divide
 
-Covid death rate map takeaways
-[insert visual]
+Broadband access in NYC
 
-Health & Population Disparities Table takeaways
-[insert visual]
+[text here about the visual] [Interactive version]()
+
+![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/map_puma.png)
+
+Broadband Access Across Population Groups
+
+[text here about the visual] [Interactive version]()
+
+![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/group_comparison.png)
 
 For more info on the data sources and methodology [insert covid impact folder/.readme]
 
