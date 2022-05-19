@@ -4,7 +4,7 @@ Our data requests for the NYC Council's Speaker Adams State of the City Address 
 ***   
 
 ### Folder Structure
-Sub folder for each issue area. Within each subfolder, we have code, data and visual subdirectories, and readme.
+This repo contains a folder for each issue area the data team has made a visual for the speech. Within each folder, there is a  code, data and visual subfolder, and readme.
 
 ## Data Visuals
 
