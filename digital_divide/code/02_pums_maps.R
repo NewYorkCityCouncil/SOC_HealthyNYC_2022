@@ -14,7 +14,7 @@ nat_intvl_hispeed = classIntervals((1 - nyc_pums_hispeed$hi_speed_pct) * 100, n 
 pal_puma = colorBin(
   palette = c('#d5dded', '#afb9db', '#8996ca', '#6175b8', '#2f56a6'),
   bins = c(round(nat_intvl_hispeed$brks,0)[1]-1, round(nat_intvl_hispeed$brks,0)[2:5], round(nat_intvl_hispeed$brks,0)[6]+1),
-  domain = 1 - nyc_pums_hispeed$hi_speed_pct, 
+  domain = (1 - nyc_pums_hispeed$hi_speed_pct) * 100, 
   na.color = "Grey"
 )
 
