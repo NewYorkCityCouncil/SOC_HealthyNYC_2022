@@ -29,7 +29,7 @@ This repo contains a folder for each issue area the data team has made a visual 
 **Health & Population Disparities Table takeaways**
 [text here about the visual] Interactive version (insert link)
 
-![alt text](https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/Covid_Plot_nocolor.png")
+<img src="https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/Covid_Plot_nocolor.png"/>
                                                                                                                               
                                                                                                                            
 For more info on the data sources and methodology [insert covid impact folder/.readme] 
@@ -96,13 +96,13 @@ Broadband access in NYC
 
 [text here about the visual] [Interactive version]()
 
-![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/map_puma.png)
+![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/visual/map_puma.png)
 
 Broadband Access Across Population Groups
 
 [text here about the visual] [Interactive version]()
 
-![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/group_comparison.png)
+![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/visual/group_comparison.png)
 
 For more info on the data sources and methodology [insert covid impact folder/.readme]
 
