@@ -54,9 +54,16 @@ For more info on the data sources and methodology [insert homeownership folder/.
 
 Access to Ambulatory Care & Diagnostic Facilities
 
-![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/health_care/visual/NYC_Health_Access.png)
+![Map of NYC showing Neighborhood Tabulation Areas (NTA) where areas with more access to hospitals/clinics are colored darker](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/health_care/visual/NYC_Health_Access.png)
 
-[text here about the visual] [Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/health_care/visual/)
+#### Takeaways
+Since we are looking purely at land area and hospital/clinic locations for ‘access’, this map represents the distributions of hospitals and clinics within the 5 boroughs.
+*	Manhattan and Bronx have easy access to a hospital/clinic wherever they are, with very few exceptions such as Hunts Point (BX0201) in the Bronx.
+*	Much of Brooklyn has easy access to a hospital/clinic wherever they are as well. 
+*	Queens’ hospitals/clinics are both more spread out in distance, but also socioeconomically.
+*	Staten Island has most of its few hospitals/clinics in the northern part of the island.
+
+ [Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/health_care/visual/Map1.html)
 
 For more info on the data sources and methodology [insert health care folder/.readme]
 
