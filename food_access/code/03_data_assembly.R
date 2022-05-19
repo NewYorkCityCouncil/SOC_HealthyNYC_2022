@@ -11,6 +11,8 @@ library(htmltools)
 library(htmlwidgets)
 library(mapview)
 library(ggplot2)
+library(leaflet.extras)
+library(classInt)
 
 ### REQUEST ------------
 # map overlaying supply gap data and EFAP locations
@@ -63,8 +65,10 @@ x <- read_sf(unzip_sf(nta_url))
 nta <- x %>%
   st_transform("+proj=longlat +datum=WGS84") 
 
-neigh_prio <- read.csv("food_access/data/Neighborhood_prioritization.csv") %>% clean_names() %>%
-  left_join(nta %>% select(NTACode, geometry), by=c("nta" = "NTACode")) %>%
+neigh_prio <- read.csv("food_access/data/Neighborhood_prioritization.csv") %>% 
+  clean_names() %>%
+  right_join(nta %>% select(NTACode, geometry), 
+            by=c("nta" = "NTACode")) %>%
   st_as_sf() %>%
   st_transform("+proj=longlat +datum=WGS84") 
   
@@ -79,7 +83,8 @@ efap <- efap %>%
        summarise(num_programs = n(), 
                  prop_legend = ifelse(num_programs >=2, "Two or Three", "One"))), 
     by = "distadd"
-  )
+  ) %>% 
+  mutate(locations = rep("EFAP Locations", n()))
 
 efap_nta <- efap %>%
   st_join(nta %>% select(NTACode, NTAName, BoroName, geometry)) %>%
