@@ -39,12 +39,12 @@ For more info on the data sources and methodology [insert covid impact folder/.r
 ### Affordable Homeownership
 
 Homeownership rates by race in NYC
-[text here about the visual] Interactive version (insert link)
-
+[text here about the visual] 
 <img src="https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/housing_affordability/visual/Home%20Ownership%20Rate%20by%20Race%20Ethnicity.png" width="800" height="700">
 
 Homeownership across the city & median income
-[insert visual]
+![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/housing_affordability/visual/race_eth_home_ownership_map.png)
+[Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/housing_affordability/visual/race_eth_home_ownership_map.html)
 
 For more info on the data sources and methodology [insert homeownership folder/.readme]
 
@@ -112,13 +112,13 @@ For more info on the data sources and methodology [insert covid impact folder/.r
 
 ### Language Access
 
-Covid death rate map takeaways
-[insert visual]
+Languages other than English and Spanish Spoken at Home in NYC
+![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/language_access/visual/group_comparison.png)
 
-Health & Population Disparities Table takeaways
-[insert visual]
+Percent of NYC Residents Who Speak a Language other than the Top 13 Across NYC
+![alt_text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/language_access/visual/map_puma.png)
 
-For more info on the data sources and methodology [insert covid impact folder/.readme]
+For more info on the data sources and methodology [language access/.readme]
 
 
 
