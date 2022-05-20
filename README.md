@@ -19,7 +19,12 @@ This repo contains a folder for each issue area the data team has made a visual 
 ### COVID's Impact & Health Disparities
 
 **Covid death rate map takeaways**
-[text here about the visual] Interactive version (insert link)
+
+* Severe previous health conditions in a zip code (Comorbidity Severity Index) is strongly correlated with high COVID-19 death rates. 
+* On the map there is clear overlap between areas with the highest COVID-19 death rates (darker shades of blue) and areas that are in the top 25% in terms of severe health conditions (highlighted with a purple border). 
+* COVID-19 deaths rates and comorbidities tend to be clustered rather than evenly spread across the city. 
+
+[Interactive version](https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/map_covid.html)
 
 <img src="https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/map_covid.png" width="800" height="730"/>
 
@@ -27,12 +32,15 @@ This repo contains a folder for each issue area the data team has made a visual 
 
 
 **Health & Population Disparities Table takeaways**
-[text here about the visual] Interactive version (insert link)
+
+* The characteristics of a zip code are correlated with the COVID-19 death rate of the area. 
+* The zip code with the highest covid-19 death rate, East New York, has the highest comorbidity index (100th percentile), one of the lowest incomes (96th percentile), the highest percentage of seniors (100th percentile). 
+* Each neighborhood in the top 5 of COVID-19 death rates has at least one characteristic ranked in the top 15%.
 
 <img src="https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/Covid_Plot_nocolor.png"/>
                                                                                                                               
                                                                                                                            
-For more info on the data sources and methodology [insert covid impact folder/.readme] 
+For more info on the data sources and methodology visit the [covid characteristics github repo](https://github.com/NewYorkCityCouncil/Covid_Characteristics). 
 
 ***
 
@@ -73,7 +81,11 @@ For more info on the data sources and methodology [insert health care folder/.re
 ### Food Insecurity
 
 Supply gap map 
-[text here about the visual] 
+
+* The map reveals multiple areas with supply gaps that currently have none or few EFAP providers (e.g., most of Staten Island, the Bayside area of Queens, Middle Village, Steinway, Van Cortlandt Village). 
+* Even some areas with EFAP providers still have a relatively high supply gap (e.g., Elmhurst, LES, Bedford, Harlem). 
+* There are many EFAP providers in the Crown Heights and East Flatbush area which is reflected in a lower supply gap in many but not all the neighborhoods there.
+
 [Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/food_access/visual/efap_score.html)
 
 ![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/food_access/visual/efap_score.png)
@@ -87,7 +99,13 @@ For more info on the data sources and methodology [food_access/.readme]
 ### Park Access
 
 Covid death rate & park access
-[text here about the visual] [Interactive version](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.html)
+
+* Many New Yorkers are still without adequate park access highlighted by the cluster in Queens that includes Elmhurst & Jackson Heights. 
+* Lower income areas in NYC have higher COVID-19 death rates. 
+* Fifty-five percent of areas with high covid rates have low park access. 
+* Adequate park access is crucial for these communities.
+
+[Interactive version](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.html)
 
 ![alt text](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.png)
 
@@ -101,13 +119,22 @@ For more info on the data sources and methodology [visit park equity repo](https
 
 Broadband access in NYC
 
-[text here about the visual] [Interactive version]()
+* High-speed broadband internet service in New York City remains divided across boroughs and neighborhoods. 
+* For some areas, over 40% of residents do not have high-speed broadband service. 
+* The Bronx stands out having many neighborhoods with 37% or more households without broadband internet.   
+
+[Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/visual/map_puma.html)
 
 ![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/visual/map_puma.png)
 
 Broadband Access Across Population Groups
 
-[text here about the visual] [Interactive version]()
+
+* Nearly a third of New York City households lack broadband service at home. 
+* The percentage is even higher for Black, Hispanic, low-income, and senior residents. 
+* Over one-third of households headed by Black or Hispanic New Yorkers do not have high-speed broadband service. 
+* Almost 50% of low-income or senior households do not have high-speed broadband service. 
+
 
 ![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/visual/group_comparison.png)
 
