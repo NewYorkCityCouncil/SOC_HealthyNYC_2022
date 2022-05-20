@@ -149,6 +149,9 @@ For more info on the data sources and methodology [insert covid impact folder/.r
 Languages other than English and Spanish Spoken at Home in NYC
 ![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/language_access/visual/group_comparison.png)
 
+
+![alt test](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/language_access/visual/English%20Proficiency%20by%20Language.png)
+
 Percent of NYC Residents Who Speak a Language other than the Top 13 Across NYC
 ![alt_text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/language_access/visual/map_puma.png)
 
