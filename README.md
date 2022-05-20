@@ -65,11 +65,11 @@ Access to Ambulatory Care & Diagnostic Facilities
 ![Map of NYC showing Neighborhood Tabulation Areas (NTA) where areas with more access to hospitals/clinics are colored darker](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/health_care/visual/NYC_Health_Access_Map.png)
 
 #### Takeaways
-Since we are looking purely at land area and hospital/clinic locations for ‘access’, this map represents the distributions of hospitals and clinics within the 5 boroughs.
-*	Manhattan and Bronx have easy access to a hospital/clinic wherever they are, with very few exceptions such as Hunts Point (BX0201) in the Bronx.
-*	Much of Brooklyn has easy access to a hospital/clinic wherever they are as well, with few exceptions on the edges of the landmass such as Canarsie (BK1803).
-*	Queens’ hospitals/clinics are more spread out in distance, with areas like Maspeth (QN0501) and Middle Village (QN0504) having much less (walkable) access to hospitals and clinics compared to surrounding neighborhoods.
-*	Staten Island has most of its few hospitals/clinics in the northern half of the island.
+Since we are looking purely at land area and hospitals and clinics locations for ‘access’, this map represents the distribution of hospitals and diagnostic and treatment clinics within the 5 boroughs.
+*	Manhattan and Bronx have easy access to a hospitals and clinics wherever they are, with very few exceptions such as Hunts Point (BX0201) in the Bronx.
+*	Much of Brooklyn has easy access to a hospitals and clinics wherever they are as well, with few exceptions on the edges of the landmass such as Canarsie (BK1803).
+*	Queens’ hospitals and clinics are more spread out in distance, with areas like Maspeth (QN0501) and Middle Village (QN0504) having less (walkable) access to hospitals and clinics compared to surrounding neighborhoods.
+*	Staten Island has its few hospitals and clinics in the northern half of the island.
 
  [Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/health_care/visual/Map1.html)
 
