@@ -6,6 +6,11 @@ source("digital_divide/code/01_pums_pull.R")
 
 
 ### map by PUMA ------------
+
+labels <- paste0("<h3>",paste0("PUMA: ", nyc_pums_hispeed$PUMA),"</h3>",
+                "<p>","Households Without Broadband: ",round((1 - nyc_pums_hispeed$hi_speed_pct) * 100, 0), "%", "</p>")
+
+
 # histogram of data to choose breaks
 hist(1 - nyc_pums_hispeed$hi_speed_pct, breaks = 15)
 
@@ -24,7 +29,8 @@ map <- leaflet(nyc_pums_hispeed) %>%
               color = "grey",
               stroke = FALSE,
               fillColor = ~pal_puma((1 - nyc_pums_hispeed$hi_speed_pct) * 100),
-              fillOpacity = 0.9) %>% 
+              fillOpacity = 0.9, 
+              label = lapply(labels,HTML)) %>% 
   addLegend(position ="topleft", 
             pal = pal_puma, 
             opacity = 0.9,
@@ -35,6 +41,8 @@ map <- leaflet(nyc_pums_hispeed) %>%
   
 
 map
+
+saveWidget(map, file="digital_divide/visual/map_puma.html")
 
 mapshot(map, file = "digital_divide/visual/map_puma.png", 
         vwidth = 900, vheight = 870)

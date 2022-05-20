@@ -9,6 +9,8 @@ library(leaflet)
 library(mapview)
 library(classInt)
 library(leaflet.extras)
+library(htmltools)
+library(htmlwidgets)
 
 ### REQUEST ------------
 # map of senior population and internet metric 
