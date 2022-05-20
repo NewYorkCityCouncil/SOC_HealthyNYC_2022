@@ -115,14 +115,14 @@ nyc_puma_list %>%
   count(LANX_label, wt = PWGTP) %>%
   mutate(prop = n / sum(n))
 
-# top languages after top 13 in nyc -> 03_pums_plot.R
+# top languages in nyc -> 03_pums_plot.R
 top_langs <- nyc_puma_list %>%
   left_join(ny_pums_language, by = "PUMA") %>%
   count(LANP_label, top_lang, wt = PWGTP) %>%
   mutate(prop_lang = n / sum(n)) %>%
   arrange(-n) 
   
-### Proportion In/Out Top 13 by PUMS -------------------
+### Proportion In/Out Top 13 by PUMA -------------------
 
 # nyc number and proportion in/out top languages by pums
 nyc_pums_top <- nyc_puma_list %>%
@@ -138,7 +138,7 @@ nyc_pums_top <- nyc_puma_list %>%
 nyc_pums_toplang <- nyc_pums_top %>%
   filter(top_lang == "no")
 
-### Each Language by PUMS -------------------
+### Each Language by PUMA -------------------
 
 # nyc number and proportion of all languages by pums
 nyc_pums_lang <- nyc_puma_list %>%

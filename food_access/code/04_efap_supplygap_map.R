@@ -92,6 +92,8 @@ addLegend(data = efap, "topleft", pal = pal_efap,
 mapshot(map, file = "food_access/visual/efap_score.png", 
         vwidth = 900, vheight = 870)
 
+saveWidget(map, file="food_access/visual/efap_score.html")
+
 ### Relationships between efap locations and score ----------------------------------
 
 ggplot(data = efap_neigh, aes(x = fy22_weighted_score, y = num_programs)) + geom_point() + ylim(0,15)
