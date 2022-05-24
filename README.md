@@ -42,7 +42,7 @@ This repo contains a folder for each issue area the data team has made a visual 
 <img src="https://newyorkcitycouncil.github.io/Covid_Characteristics/visuals/Covid_Plot_nocolor.png"/>
                                                                                                                               
                                                                                                                            
-For more info on the data sources and methodology visit the [covid characteristics github repo](https://github.com/NewYorkCityCouncil/Covid_Characteristics). 
+For more info on the data sources and methodology, visit our [covid characteristics repo](https://github.com/NewYorkCityCouncil/Covid_Characteristics). 
 
 ***
 
@@ -57,13 +57,13 @@ Homeownership across the city & median income
 
 [Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/housing_affordability/visual/race_eth_home_ownership_map.html)
 
-For more info on the data sources and methodology [insert homeownership folder/.readme]
+For more info on the data sources and methodology, visit [housing_affordability folder/.readme](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/tree/master/housing_affordability)
 
 ***
 
 ### Expanding Health 
 
-Access to Ambulatory Care & Diagnostic Facilities
+**Access to Ambulatory Care & Diagnostic Facilities**
 
 ![Map of NYC showing Neighborhood Tabulation Areas (NTA) where areas with more access to hospitals/clinics are colored darker](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/health_care/visual/NYC_Health_Access_Map.png)
 
@@ -76,14 +76,14 @@ Since we are looking purely at land area and hospitals and clinics locations for
 
  [Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/health_care/visual/Map1.html)
 
-For more info on the data sources and methodology [insert health care folder/.readme]
+For more info on the data sources and methodology, visit [health care subfolder](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/tree/master/health_care)
 
 ***  
 
 
 ### Food Insecurity
 
-Supply gap map 
+**Supply gap map **
 
 * The map reveals multiple areas with supply gaps that currently have none or few EFAP providers (e.g., most of Staten Island, the Bayside area of Queens, Middle Village, Steinway, Van Cortlandt Village). 
 * Even some areas with EFAP providers still have a relatively high supply gap (e.g., Elmhurst, LES, Bedford, Harlem). 
@@ -94,14 +94,14 @@ Supply gap map
 ![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/food_access/visual/efap_score.png)
 
 
-For more info on the data sources and methodology [food_access/.readme]
+For more info on the data sources and methodology, visit [food_access folder](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/tree/master/food_access)
 
 ***  
 
 
 ### Park Access
 
-Covid death rate & park access
+**Covid death rate & park access**
 
 * Many New Yorkers are still without adequate park access highlighted by the cluster in Queens that includes Elmhurst & Jackson Heights. 
 * Lower income areas in NYC have higher COVID-19 death rates. 
@@ -110,9 +110,11 @@ Covid death rate & park access
 
 [Interactive version](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.html)
 
+
 ![alt text](https://newyorkcitycouncil.github.io/park_equity_covid_2022/figures/COVID_deaths.png)
 
-For more info on the data sources and methodology [visit park equity repo](https://github.com/NewYorkCityCouncil/park_equity_covid_2022)
+
+For more info on the data sources and methodology, visit our [park equity repo](https://github.com/NewYorkCityCouncil/park_equity_covid_2022)
 
 ***  
 
@@ -120,18 +122,20 @@ For more info on the data sources and methodology [visit park equity repo](https
 
 ### Digital Divide
 
-Broadband access in NYC
+**Broadband access in NYC**
 
 * High-speed broadband internet service in New York City remains divided across boroughs and neighborhoods. 
 * For some areas, over 40% of residents do not have high-speed broadband service. 
-* The Bronx stands out having many neighborhoods with 37% or more households without broadband internet.   
+* The Bronx stands out having many neighborhoods with 37% or more households without broadband internet. 
+  
 
 [Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/visual/map_puma.html)
 
 ![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/visual/map_puma.png)
 
-Broadband Access Across Population Groups
 
+
+**Broadband Access Across Population Groups**
 
 * Nearly a third of New York City households lack broadband service at home. 
 * The percentage is even higher for Black, Hispanic, low-income, and senior residents. 
@@ -139,9 +143,14 @@ Broadband Access Across Population Groups
 * Almost 50% of low-income or senior households do not have high-speed broadband service. 
 
 
+<br>
+<br>
+
+
 ![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/digital_divide/visual/group_comparison.png)
 
-For more info on the data sources and methodology [insert covid impact folder/.readme]
+
+For more info on the data sources and methodology, visit [digital divde folder](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/tree/master/digital_divide)
 
 ***  
 
@@ -149,16 +158,23 @@ For more info on the data sources and methodology [insert covid impact folder/.r
 
 ### Language Access
 
-Languages other than English and Spanish Spoken at Home in NYC
+**Languages other than English and Spanish Spoken at Home in NYC**
+
 ![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/language_access/visual/group_comparison.png)
 
+<br>
+<br>
 
 ![alt test](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/language_access/visual/English%20Proficiency%20by%20Language.png)
 
-Percent of NYC Residents Who Speak a Language other than the Top 13 Across NYC
+<br>
+
+**Percent of NYC Residents Who Speak a Language other than the Top 13 Across NYC**
+
 ![alt_text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/language_access/visual/map_puma.png)
 
-For more info on the data sources and methodology [language access/.readme]
+
+For more info on the data sources and methodology, visit [language_access folder](https://github.com/NewYorkCityCouncil/SOC_HealthyNYC_2022/tree/master/language_access)
 
 
 
