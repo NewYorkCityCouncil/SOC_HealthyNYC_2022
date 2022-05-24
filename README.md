@@ -1,5 +1,7 @@
-# SOC Expand Health 
-Our data requests for the NYC Council's Speaker Adams State of the City Address on #ExpandHealth https://council.nyc.gov/state-of-the-city-2022/
+# SOC: Expanding Health & Opportunity for New Yorkers
+Our data requests for the NYC Council's Speaker Adams State of the City Address on #ExpandHealth 
+
+[Live Stream/Video](https://council.nyc.gov/state-of-the-city-2022/) | [Press Release](https://council.nyc.gov/press/2022/05/22/2190/) | [Accompanying Report](https://council.nyc.gov/press/wp-content/uploads/sites/56/2022/05/Speaker_Adams_SOC_2022_REPORT-FINAL.pdf)
 
 ***   
 
@@ -52,6 +54,7 @@ Homeownership rates by race in NYC
 
 Homeownership across the city & median income
 ![alt text](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/housing_affordability/visual/race_eth_home_ownership_map.png)
+
 [Interactive version](https://newyorkcitycouncil.github.io/SOC_HealthyNYC_2022/housing_affordability/visual/race_eth_home_ownership_map.html)
 
 For more info on the data sources and methodology [insert homeownership folder/.readme]
