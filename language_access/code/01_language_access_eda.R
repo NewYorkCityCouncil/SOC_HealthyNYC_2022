@@ -267,7 +267,8 @@ plot <- ggplot(lang_final, aes(x = reorder(Language, count_less_than_well), y = 
   )) +
   scale_y_continuous(labels = comma) +
   labs(x = "Language Spoken at Home", y = "Total People", 
-       title = "Non-Native English Speakers by Language and English Proficiency") +
+       title = "Non-Native English Speakers by Language and English Proficiency in NYC", 
+       subtitle = "Excluding the almost 2 million Spanish speakers, of which over 800,000 are not proficient in English") +
   coord_flip()
 
 
