@@ -8,6 +8,9 @@ library(tidyr)
 library(sf)
 library(leaflet)
 library(mapview)
+library(leaflet.extras)
+library(htmltools)
+library(htmlwidgets)
 
 
 ### REQUEST ------------
@@ -142,4 +145,8 @@ internet_cdta <- internet_ct_cdta %>%
     poverty = sum(S1701_C01_042E) / sum(S1701_C01_001E)
   )
 
+internet_cdta_shp <- internet_cdta %>%
+  left_join(cdta_shp %>% select(CDTA2020, CDTAType), by = "CDTA2020") %>%
+  filter(CDTAType == "0") %>%
+  st_as_sf()
 
