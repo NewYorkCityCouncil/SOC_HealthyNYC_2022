@@ -77,7 +77,7 @@ mapshot(map_bw, file = "digital_divide/visual/map_broadband_cdta.png",
 ### map by CDTA - poverty ------------
 
 labels_poverty <- paste0("<h3>",paste0(internet_cdta_shp$CDTAName),"</h3>",
-                 "<p>","Income Below 200% of Poverty Ratio: ",round(internet_cdta_shp$poverty * 100, 0), "%", "</p>")
+                 "<p>","Income Below 200% of Poverty Line: ",round(internet_cdta_shp$poverty * 100, 0), "%", "</p>")
 
 
 # histogram of data to choose breaks
@@ -105,7 +105,7 @@ map <- leaflet() %>%
             pal = pal_poverty_cdta, 
             opacity = 0.9,
             values = internet_cdta_shp$poverty * 100,
-            title =  "Percent of NYC Individuals</br>Below 200% of Poverty Ratio",
+            title =  "Percent of NYC Individuals</br>Below 200% of Poverty Line",
             labFormat = labelFormat(suffix = "%")) %>%
   setMapWidgetStyle(list(background= "white"))
 
@@ -132,7 +132,7 @@ map_bw <- leaflet() %>%
             pal = pal_bw_poverty_cdta, 
             opacity = 0.9,
             values = internet_cdta_shp$poverty * 100,
-            title =  "Percent of NYC Individuals</br>Below 200% of Poverty Ratio",
+            title =  "Percent of NYC Individuals</br>Below 200% of Poverty Line",
             labFormat = labelFormat(suffix = "%")) %>%
   setMapWidgetStyle(list(background= "white"))
 
