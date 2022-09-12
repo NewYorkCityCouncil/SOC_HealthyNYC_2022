@@ -150,3 +150,12 @@ internet_cdta_shp <- internet_cdta %>%
   filter(CDTAType == "0") %>%
   st_as_sf()
 
+### Top 5 CDTA's 
+
+internet_cdta_shp %>% 
+  arrange(desc(no_broadband)) %>%
+  head(n=10)
+  
+internet_cdta_shp %>% 
+  arrange(desc(poverty)) %>%
+  head()

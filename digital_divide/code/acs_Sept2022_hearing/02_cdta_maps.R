@@ -43,7 +43,7 @@ map <- leaflet() %>%
 map
 
 pal_bw_broadband_cdta = colorBin(
-  palette = "Greys",
+  palette = grey(seq(0.8,0.1,length.out=5)),
   bins = c(round(nat_intvl_no_broadband$brks,0)[1], round(nat_intvl_no_broadband$brks,0)[2:5], round(nat_intvl_no_broadband$brks,0)[6]+1),
   domain = (1 - internet_cdta_shp$no_broadband) * 100, 
   na.color = "Grey"
@@ -113,7 +113,7 @@ map <- leaflet() %>%
 map
 
 pal_bw_poverty_cdta = colorBin(
-  palette = "Greys",
+  palette = grey(seq(0.8,0.1,length.out=5)),
   bins = c(round(nat_intvl_poverty$brks,0)[1], round(nat_intvl_poverty$brks,0)[2:5], round(nat_intvl_poverty$brks,0)[6]+1),
   domain = (1 - internet_cdta_shp$poverty) * 100, 
   na.color = "Grey"
