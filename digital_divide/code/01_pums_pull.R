@@ -41,11 +41,11 @@ unzip_sf <- function(zip_url) {
 
 ### Pull and clean data -----------
 
-pums_vars_2019 <- pums_variables %>% 
-  filter(year == 2019, survey == "acs5")
+pums_vars_2020 <- pums_variables %>% 
+  filter(year == 2020, survey == "acs5")
 
 # pums_variables contains both the variables as well as their possible values. So let’s just look at the unique variables.
-pums_vars_2019 %>% 
+pums_vars_2020 %>% 
   distinct(var_code, var_label, data_type, level)
 
 ### HISPEED ------------------
@@ -62,7 +62,7 @@ ny_pums_hispeed <- get_pums(
   variables = c("PUMA", "HISPEED", "RAC1P", "HISP", "AGEP", "POVPIP"),
   state = "NY",
   survey = "acs5",
-  year = 2019, 
+  year = 2020, 
   # do not include vacant housing units
   return_vacant = FALSE,
   # recode character variables
